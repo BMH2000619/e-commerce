@@ -28,6 +28,11 @@ app.use(methodOverride('_method'))
 // Morgan for logging HTTP requests
 app.use(morgan('dev'))
 
+// Require controller
+const productController = require('./controllers/products')
+
+app.use('products', productController)
+
 
 
 app.listen(port, () => {
