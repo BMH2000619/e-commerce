@@ -36,12 +36,17 @@ router.get('/:productId', async (req,res) => {
   res.render('/products/show.ejs', {product})
 })
 
-// GET /categories/:Id/products - Show products within a category
+// GET /categories/:id/products - Show products within a category
 router.get('/categories/:id/products', async (req,res) => {
   const products = await Product.findById(req.params.productId).populate('category')
   res.render('products/category.ejs', { products });
 })
 
-
+// GET /products/:productId/edit - Form to edit a product
+router.get('/:productId/edit', async (req, res) => {
+  const currentProduct = await Product.findById(req.params.productId).populate('category');
+  const categories = await Category.find()
+  res.render('products/edit.ejs', { product: currentProduct, categories })
+})
 
 module.exports = router
