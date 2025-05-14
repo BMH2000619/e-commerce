@@ -1,0 +1,11 @@
+<h1>Today's Deals</h1>
+
+<ul>
+  <% products.forEach ( product => { %>
+    <li>
+        <img src="<%= product.img %>"/>
+        <%= product.name %>
+        <%= product.price %>
+    </li>
+  <% }) %>
+</ul>
