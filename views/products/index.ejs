@@ -3,9 +3,9 @@
 <ul>
   <% products.forEach ( product => { %>
     <li>
-        <img src="<%= product.img %>"/>
-        <%= product.name %>
-        <%= product.price %>
+        <img src="<%= product.img %>" alt="<%= product.name %>"/>
+        <h2><%= product.name %></h2>
+        <p><%= product.price %></p>
     </li>
   <% }) %>
 </ul>
