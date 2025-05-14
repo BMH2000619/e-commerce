@@ -1,22 +1,31 @@
+const express = require('express')
+const router = express.Router()
 
-const express = require('express');
-const router = express.Router();
-
-const Product = require('../models/product');
+const Product = require('../models/product')
 // There is no mo
-const Category = require('./models/Category');
+const Category = require('./models/Category')
 
 // Routes/ API's/ Functionality
 
-router.get('/', async (req,res) => {
+router.get('/', async (req, res) => {
   const products = await Product.find()
-  res.render('products/index.ejs', {products})
+  res.render('products/index.ejs', { products })
 })
 
-router.get('/new', async (req,res) => {
-  const categories = await Category.find();
-  res.render('products/new.ejs', {categories})
+router.get('/new', async (req, res) => {
+  const categories = await Category.find()
+  res.render('products/new.ejs', { categories })
 })
 
+router.post('/', async (req, res) => {
+  const newProduct = new Product(req.body)
+  await newProduct.save()
+  res.redirect('/products')
+})
 
-module.exports = router;
+router.get('/:productId', async (req,res) => {
+  const product = await Product.find(req.params.id).populate('category')
+  res.render('/products/show.ejs', {product})
+})
+
+module.exports = router
