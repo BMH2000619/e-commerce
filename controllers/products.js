@@ -5,9 +5,6 @@ const Product = require('../models/product')
 // !!!!!!!!!!!!There is no model crested!!!!!!!!!!!!!!!!!!!!!!!!!!
 const Category = require('./models/Category')
 
-// Middleware
-const methodOverride = require('method-override');
-app.use(methodOverride('_method'));
 
 // Routes/ API's/ Functionality
 
@@ -36,8 +33,9 @@ router.get('/:productId', async (req,res) => {
   res.render('/products/show.ejs', {product})
 })
 
-// GET /categories/:id/products - Show products within a category
-router.get('/categories/:id/products', async (req,res) => {
+// !!!!!!!!!!! Here or in categories???????? !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// GET /categories/:categoryId/products - Show products within a category
+router.get('/categories/:categoryId/products', async (req,res) => {
   const products = await Product.findById(req.params.productId).populate('category')
   res.render('products/category.ejs', { products });
 })
@@ -48,5 +46,16 @@ router.get('/:productId/edit', async (req, res) => {
   const categories = await Category.find()
   res.render('products/edit.ejs', { product: currentProduct, categories })
 })
+
+// DELETE /products/product:id - Delete product
+router.delete('/:productId', async (req,res) => {
+  const product = await Product.findById(req.params.productId)
+  if(product.seller.equals(req.session.user._id)) {
+    await product.deleteOne()
+    res.redirect('/products')
+  }
+  
+})
+
 
 module.exports = router

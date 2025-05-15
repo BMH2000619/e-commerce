@@ -12,3 +12,16 @@
 <p>Quantity Available: <%= product.quantity %></p>
 
 <button type="submit">Add to Cart</button>
+
+//  If user owns the product show edit and delete options
+
+<% if (product.seller._id.equals(user._id)) { %>
+
+<a href="/products/<%= product._id %>/edit">Edit Product</a>
+
+<form method="POST" action="/products/<%= product._id %>?_method=DELETE">
+  <button type="submit">Delete Product</button>
+</form>  
+
+<% } %>
+
