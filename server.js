@@ -7,10 +7,12 @@ const app = express()
 const mongoose = require('mongoose')
 const methodOverride = require('method-override')
 const morgan = require('morgan')
+
 const session = require('express-session')
 const passUserToView = require('./middleware/pass-user-to-view')
 const isSignedIn = require('./middleware/is-sign-in')
 const bodyParser = require('body-parser');
+
 
 
 // Set the port from environment variable or default to 3000
@@ -24,6 +26,7 @@ mongoose.connection.on('connected', () => {
 
 // Middleware to parse URL-encoded data from forms
 app.use(express.urlencoded({ extended: false }))
+
 // Middleware for using HTTP verbs such as PUT or DELETE
 app.use(methodOverride('_method'))
 // Morgan for logging HTTP requests
@@ -32,10 +35,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Require controller
 const productController = require('./controllers/products')
+const orderController = require('./controllers/orders')
+const categoryController = require('./controllers/categories')
+const cartController = require('./controllers/carts')
 
 app.use('products', productController)
-
-
+app.use('orders', orderController)
+app.use('categories', categoryController)
+app.use('carts', cartController)
 
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`)

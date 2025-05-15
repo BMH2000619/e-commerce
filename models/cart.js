@@ -13,7 +13,10 @@ const cartSchema = new mongoose.Schema({
     quantity: {
       type: Number
     }
-  }]
+  }],
+  total: {
+    type: Number
+  }
 })
 
 const Cart = mongoose.model('Cart', cartSchema)
