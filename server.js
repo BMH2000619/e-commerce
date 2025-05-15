@@ -32,8 +32,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Require controller
 const productController = require('./controllers/products')
+const authController = require("./controllers/auth.js");
 
 app.use('products', productController)
+app.use("/auth", authController);
 
 
 
