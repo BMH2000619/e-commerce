@@ -1,0 +1,15 @@
+<h1>Products in <%= category.name %></h1>
+
+<ul>
+  <% products.forEach(product => { %>
+    <li>
+      <a href="/products/<%= product._id %>">
+        <img src="<%= product.img %>" alt="<%= product.name %>" />
+        <h2><%= product.name %></h2>
+        <p><%= product.price %></p>
+      </a>
+    </li>
+  <% }) %>
+</ul>
+
+<a href="/products">Back to All Products</a>

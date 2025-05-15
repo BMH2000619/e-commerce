@@ -1,0 +1,61 @@
+const express = require('express')
+const router = express.Router()
+
+const Product = require('../models/product')
+// !!!!!!!!!!!!There is no model crested!!!!!!!!!!!!!!!!!!!!!!!!!!
+// const Category = require('./models/Category')
+
+
+// Routes/ API's/ Functionality
+
+// GET /products - List all Products
+router.get('/', async (req, res) => {
+  const products = await Product.find().populate('category')
+  res.render('products/index.ejs', { products })
+})
+
+// GET /products/new - Form to create new product
+router.get('/new', async (req, res) => {
+  const categories = await Category.find()
+  res.render('products/new.ejs', { categories })
+})
+
+// POST /products - Form to create new product
+router.post('/', async (req, res) => {
+  const newProduct = new Product(req.body)
+  await newProduct.save()
+  res.redirect('/products')
+})
+
+// GET /products/productId - Show a Product
+router.get('/:productId', async (req,res) => {
+  const product = await Product.find(req.params.id).populate('category')
+  res.render('/products/show.ejs', {product})
+})
+
+// !!!!!!!!!!! Here or in categories???????? !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// GET /categories/:categoryId/products - Show products within a category
+router.get('/categories/:categoryId/products', async (req,res) => {
+  const products = await Product.findById(req.params.productId).populate('category')
+  res.render('products/category.ejs', { products });
+})
+
+// GET /products/:productId/edit - Form to edit a product
+router.get('/:productId/edit', async (req, res) => {
+  const currentProduct = await Product.findById(req.params.productId).populate('category');
+  const categories = await Category.find()
+  res.render('products/edit.ejs', { product: currentProduct, categories })
+})
+
+// DELETE /products/product:id - Delete product
+router.delete('/:productId', async (req,res) => {
+  const product = await Product.findById(req.params.productId)
+  if(product.seller.equals(req.session.user._id)) {
+    await product.deleteOne()
+    res.redirect('/products')
+  }
+  
+})
+
+
+module.exports = router
