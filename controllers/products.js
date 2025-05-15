@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 
 const Product = require('../models/product')
-
 const Category = require('../models/category')
+
 
 // Routes/ API's/ Functionality
 
