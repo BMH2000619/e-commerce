@@ -9,7 +9,7 @@ const methodOverride = require('method-override')
 const morgan = require('morgan')
 const session = require('express-session')
 const passUserToView = require('./middleware/pass-user-to-view')
-const isSignedIn = require('./middleware/is-sign-in')
+const isSignedIn = require('./middleware/is-signed-in')
 const bodyParser = require('body-parser');
 
 
