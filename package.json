@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/BMH2000619/e-commerce#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
