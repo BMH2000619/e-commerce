@@ -38,6 +38,7 @@ app.use(
   })
 );
 
+
 app.use(passUserToView);
 
 // Require controller
