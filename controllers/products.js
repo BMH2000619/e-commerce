@@ -3,7 +3,7 @@ const router = express.Router()
 
 const Product = require('../models/product')
 // !!!!!!!!!!!!There is no model crested!!!!!!!!!!!!!!!!!!!!!!!!!!
-const Category = require('./models/Category')
+// const Category = require('./models/Category')
 
 
 // Routes/ API's/ Functionality
