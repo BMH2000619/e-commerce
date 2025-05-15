@@ -5,7 +5,6 @@ const Product = require('../models/product')
 const Category = require('../models/category')
 
 
-
 // Routes/ API's/ Functionality
 
 // GET /products - List all Products
@@ -28,27 +27,27 @@ router.post('/', async (req, res) => {
 })
 
 // GET /products/productId - Show a Product
-router.get('/:productId', async (req,res) => {
+router.get('/:productId', async (req, res) => {
   const product = await Product.find(req.params.id).populate('category')
-  res.render('/products/show.ejs', {product})
+  res.render('/products/show.ejs', { product })
 })
 
 // GET /products/:productId/edit - Form to edit a product
 router.get('/:productId/edit', async (req, res) => {
-  const currentProduct = await Product.findById(req.params.productId).populate('category');
+  const currentProduct = await Product.findById(req.params.productId).populate(
+    'category'
+  )
   const categories = await Category.find()
   res.render('products/edit.ejs', { product: currentProduct, categories })
 })
 
 // DELETE /products/product:id - Delete product
-router.delete('/:productId', async (req,res) => {
+router.delete('/:productId', async (req, res) => {
   const product = await Product.findById(req.params.productId)
-  if(product.seller.equals(req.session.user._id)) {
+  if (product.seller.equals(req.session.user._id)) {
     await product.deleteOne()
     res.redirect('/products')
   }
-  
 })
-
 
 module.exports = router
