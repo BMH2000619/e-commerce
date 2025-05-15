@@ -30,13 +30,29 @@ app.use(methodOverride('_method'))
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+app.use(passUserToView);
+
 // Require controller
 const productController = require('./controllers/products')
 const authController = require("./controllers/auth.js");
 
+app.get('/', (req, res) => {
+  res.render('index.ejs', {
+    user: req.session.user,
+  });
+});
+
 app.use('products', productController)
 app.use("/auth", authController);
-
+app.use(isSignedIn);
 
 
 app.listen(port, () => {
