@@ -19,9 +19,11 @@
   },
   "homepage": "https://github.com/BMH2000619/e-commerce#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
+    "express-session": "^1.18.1",
     "js": "^0.1.0",
     "method-override": "^3.0.0",
     "mongoose": "^8.14.3",
