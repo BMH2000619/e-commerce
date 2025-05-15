@@ -2,8 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const Product = require('../models/product')
-// !!!!!!!!!!!!There is no model crested!!!!!!!!!!!!!!!!!!!!!!!!!!
-// const Category = require('./models/Category')
+const Category = require('../models/category')
 
 
 // Routes/ API's/ Functionality
@@ -31,13 +30,6 @@ router.post('/', async (req, res) => {
 router.get('/:productId', async (req,res) => {
   const product = await Product.find(req.params.id).populate('category')
   res.render('/products/show.ejs', {product})
-})
-
-// !!!!!!!!!!! Here or in categories???????? !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// GET /categories/:categoryId/products - Show products within a category
-router.get('/categories/:categoryId/products', async (req,res) => {
-  const products = await Product.findById(req.params.productId).populate('category')
-  res.render('products/category.ejs', { products });
 })
 
 // GET /products/:productId/edit - Form to edit a product
