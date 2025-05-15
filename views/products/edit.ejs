@@ -2,7 +2,7 @@
 
 <h1>Edit Product</h1>
 
-<form method="post" action="/products/<%= product._id %>?_method=PUT>
+<form action="/products/<%= product._id %>?_method=PUT" method="post">
   <label for="name">Product Name:</label>
   <input type="text" name="name" id="name" value="<%= product.name %>">
   <br>
