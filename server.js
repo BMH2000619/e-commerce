@@ -10,7 +10,7 @@ const morgan = require('morgan')
 
 const session = require('express-session')
 const passUserToView = require('./middleware/pass-user-to-view')
-const isSignedIn = require('./middleware/is-sign-in')
+const isSignedIn = require('./middleware/is-signed-in')
 const bodyParser = require('body-parser');
 
 
@@ -33,16 +33,37 @@ app.use(methodOverride('_method'))
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+
+app.use(passUserToView);
+
 // Require controller
 const productController = require('./controllers/products')
 const orderController = require('./controllers/orders')
 const categoryController = require('./controllers/categories')
 const cartController = require('./controllers/carts')
+const authController = require("./controllers/auth.js");
+
+app.get('/', (req, res) => {
+  res.render('index.ejs', {
+    user: req.session.user,
+  });
+});
 
 app.use('products', productController)
+app.use("/auth", authController);
 app.use('orders', orderController)
 app.use('categories', categoryController)
 app.use('carts', cartController)
+
+app.use(isSignedIn);
 
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`)

@@ -26,4 +26,4 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-module.exports = routers
+module.exports = router

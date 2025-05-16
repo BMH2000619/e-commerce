@@ -16,6 +16,11 @@ const cartSchema = new mongoose.Schema({
   }],
   total: {
     type: Number
+  },
+  status: {
+    type: String,
+    enum: ['active', 'inactive'],
+    default: 'inactive'
   }
 })
 
