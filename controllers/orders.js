@@ -37,3 +37,24 @@ router.post('/', async (req, res) => {
     res.redirect('/');
   }
 });
+
+
+// GET /orders/:orderId - show a specific order
+router.get('/:orderId', async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.orderId)
+      .populate({
+        path: 'cartId',
+        populate: {
+          path: 'user items.product',
+        },
+      });
+
+    const isOwner = order.cartId.user._id.equals(req.session.user._id);
+
+    res.render('orders/show.ejs', { order, isOwner });
+  } catch (err) {
+    console.error(err);
+    res.redirect('/');
+  }
+});
