@@ -71,3 +71,22 @@ router.put('/:orderId', async (req, res) => {
     res.redirect('/');
   }
 });
+
+// DELETE /orders/:orderId - delete order (optional)
+router.delete('/:orderId', async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.orderId).populate('cartId');
+
+    if (order.cartId.user.equals(req.session.user._id)) {
+      await order.deleteOne();
+      res.redirect('/orders');
+    } else {
+      res.send("You don't have permission to delete this order.");
+    }
+  } catch (err) {
+    console.error(err);
+    res.redirect('/');
+  }
+});
+
+module.exports = router;
