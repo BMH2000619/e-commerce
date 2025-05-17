@@ -6,26 +6,29 @@ const Product = require('../models/product')
 
 // Routes/ API's/ Functionality
 
-// GET /carts - Create a new Cart
-router.get('/', async (req,res) => {
+// POST /carts - Create a new Cart
+router.post('/', async (req,res) => {
   const cart = await Cart.create({
       user: req.session.user._id,
       items: [],
       total: 0,
       status: 'active'
     })
-  res.redirect(`/carts/${cart._id}/users/${userId}`)
+  res.redirect(`/carts/${cart._id}/user/${req.session.user._id}`)
 })
 
 // GET /carts/:cartId/user/:userId - Get Cart for a user
-router.get('/:cartId/users/:userId', async (req,res) => {
-  const cart = await Cart.findOne({ _id: req.params.cartId, users: req.params.userId })
-    .populate('items.product')
+router.get('/:cartId/user/:userId', async (req,res) => {
+  const cart = await Cart.findOne({
+    _id: req.params.cartId, 
+    user: req.params.userId 
+  }).populate('items.product')
+
   res.render('carts/show.ejs', { cart })
 })
 
-// POST /carts/:cartId/users/:userId/items - Add item to cart
-router.post('/:cartId/users/:userId/items', async (req,res) => {
+// POST /carts/:cartId/user/:userId/items - Add item to cart
+router.post('/:cartId/user/:userId/items', async (req,res) => {
     const cart = await Cart.findById(req.params.cartId)
     const product = await Product.findById(req.body.productId)
 
@@ -44,23 +47,33 @@ router.post('/:cartId/users/:userId/items', async (req,res) => {
 
     await cart.save()
     
-    res.redirect(`/carts/${cart._id}/users/${user._id}`)
+    res.redirect(`/carts/${cart._id}/user/${req.params.userId}`)
 })
 
-// POST carts/:cartId/users/:userId/items/:itemId - Update quantity in cart  
-router.post('/:cartId/users/:userId/items/:itemId', async (req,res) => {
-  const cart = await Cart.findById(req.params.cartId)
+// POST carts/:cartId/user/:userId/items/:itemId - Update quantity in cart  
+router.post('/:cartId/user/:userId/items/:itemId', async (req,res) => {
+  const cart = await Cart.findById(req.params.cartId).populate('items.product')
   const item = cart.items.id(req.params.itemId)
 
-  item.quantity = req.body.quantity
+   // Calculate new quantity
+  const oldQuantity = item.quantity
+  const newQuantity = parseInt(req.body.quantity)
+  const quantityDifference = newQuantity - oldQuantity
+  
+  // Update quantity
+  item.quantity = newQuantity
+  
+  // Update total 
+  cart.total += item.product.price * quantityDifference
+
   await cart.save()
 
-  res.redirect(`/carts/${cart._id}/users/${user._id}`)
+  res.redirect(`/carts/${cart._id}/user/${req.params.userId}`)
 })
 
-// DELETE carts/:cartId/users/:userId/items/:itemId - Remove Item from cart
-router.delete('/:cartId/users/:userId/items/:itemId', async (req,res) => {
-  const cart = await Cart.findById(req.params.cartId)
+// DELETE carts/:cartId/user/:userId/items/:itemId - Remove Item from cart
+router.delete('/:cartId/user/:userId/items/:itemId', async (req,res) => {
+  const cart = await Cart.findById(req.params.cartId).populate('items.product')
   const item = cart.items.id(req.params.itemId)
 
   //adjust total
@@ -70,11 +83,11 @@ router.delete('/:cartId/users/:userId/items/:itemId', async (req,res) => {
 
   await cart.save()
 
-  res.redirect(`/carts/${cart._id}/users/${user._id}`)
+  res.redirect(`/carts/${cart._id}/user/${req.params.userId}`)
 
 })
 
-// POST /carts/:cartId/users/:userId/checkout - checkout to set cart status to inactive
+// POST /carts/:cartId/user/:userId/checkout - checkout to set cart status to inactive
 router.post('/:cartId/user/:userId/checkout', async (req,res) => {
   const cart = await Cart.findById(req.params.cartId)
   cart.status = 'inactive'
