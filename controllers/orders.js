@@ -58,3 +58,16 @@ router.get('/:orderId', async (req, res) => {
     res.redirect('/');
   }
 });
+
+
+// PUT /orders/:orderId - update order status (e.g., admin functionality)
+router.put('/:orderId', async (req, res) => {
+  try {
+    const { status } = req.body;
+    await Order.findByIdAndUpdate(req.params.orderId, { status });
+    res.redirect(`/orders/${req.params.orderId}`);
+  } catch (err) {
+    console.error(err);
+    res.redirect('/');
+  }
+});
