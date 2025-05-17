@@ -10,9 +10,14 @@
 
 <p>Quantity Available: <%= product.quantity %></p>
 
+<form method="POST" action="/carts/<%= cartId %>/user/<%= userId %>/items">
+<input type="hidden" name="productId" id="productId" value="<%= product_.id %>">
+<input type="number" name="quantity" id="quantity" value="1" min="1" max="<%= product.quantity %>">
 <button type="submit">Add to Cart</button>
+</form>
 
-//  If user owns the product show edit and delete options
+
+<!-- If user owns the product show edit and delete options -->
 
 <% if (product.seller._id.equals(user._id)) { %>
 
