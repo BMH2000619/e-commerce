@@ -8,13 +8,26 @@ const Product = require('../models/product')
 
 // POST /carts - Create a new Cart
 router.post('/', async (req,res) => {
-  const cart = await Cart.create({
+
+  // Check if there is active cart
+  const isCartActive = await Cart.findOne({
+    user: req.session.user._id,
+    status: 'active'
+  })
+
+  if(isCartActive) {
+    // Redirect to active cart
+    res.redirect(`/carts/${isCartActive._id}/user/${req.session.user._id}`);
+  } else {
+    // Create new cart with active status
+    const cart = await Cart.create({
       user: req.session.user._id,
       items: [],
       total: 0,
       status: 'active'
     })
   res.redirect(`/carts/${cart._id}/user/${req.session.user._id}`)
+  }
 })
 
 // GET /carts/:cartId/user/:userId - Get Cart for a user
