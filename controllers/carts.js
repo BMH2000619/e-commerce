@@ -4,6 +4,15 @@ const router = express.Router()
 const Cart = require('../models/cart')
 const Product = require('../models/product')
 
+// Function to Recalculate the total 
+    const recalculateTotal = cart => {
+      let total = 0
+      cart.items.forEach( item => {
+        total += item.product.price * item.quantity
+      }) 
+      return total
+    }
+
 // Routes/ API's/ Functionality
 
 // POST /carts - Create a new Cart
@@ -17,7 +26,7 @@ router.post('/', async (req,res) => {
 
   if(isCartActive) {
     // Redirect to active cart
-    res.redirect(`/carts/${isCartActive._id}/user/${req.session.user._id}`);
+    res.redirect(`/carts/${isCartActive._id}/user/${req.session.user._id}`)
   } else {
     // Create new cart with active status
     const cart = await Cart.create({
@@ -42,11 +51,11 @@ router.get('/:cartId/user/:userId', async (req,res) => {
 
 // POST /carts/:cartId/user/:userId/items - Add item to cart
 router.post('/:cartId/user/:userId/items', async (req,res) => {
-    const cart = await Cart.findById(req.params.cartId)
+    const cart = await Cart.findById(req.params.cartId).populate('items.product')
     const product = await Product.findById(req.body.productId)
 
     // check if product is already in cart
-    const existingItem = cart.items.find(item => item.product.equals(product._id))
+    const existingItem = cart.items.find(item => item.product._id.equals(product._id))
     if (existingItem) {
       // if item exists increase quantity 
       existingItem.quantity += Number(req.body.quantity)
@@ -54,9 +63,9 @@ router.post('/:cartId/user/:userId/items', async (req,res) => {
       // else item doesn't exist add to cart 
       cart.items.push({ product: product._id, quantity: req.body.quantity })
     }
-    
-    // update total price
-    cart.total += product.price * req.body.quantity
+
+    // Recalculate the total
+    cart.total = recalculateTotal(cart)
 
     await cart.save()
     
@@ -67,17 +76,16 @@ router.post('/:cartId/user/:userId/items', async (req,res) => {
 router.post('/:cartId/user/:userId/items/:itemId', async (req,res) => {
   const cart = await Cart.findById(req.params.cartId).populate('items.product')
   const item = cart.items.id(req.params.itemId)
-
-   // Calculate new quantity
-  const oldQuantity = item.quantity
+  
   const newQuantity = parseInt(req.body.quantity)
-  const quantityDifference = newQuantity - oldQuantity
-  
-  // Update quantity
-  item.quantity = newQuantity
-  
-  // Update total 
-  cart.total += item.product.price * quantityDifference
+    if(newQuantity <= 0) {
+      return res.send('Invalid quantity')
+    }
+
+    item.quantity = newQuantity
+
+  // Recalculate the total
+    cart.total = recalculateTotal(cart)
 
   await cart.save()
 
@@ -89,15 +97,14 @@ router.delete('/:cartId/user/:userId/items/:itemId', async (req,res) => {
   const cart = await Cart.findById(req.params.cartId).populate('items.product')
   const item = cart.items.id(req.params.itemId)
 
-  //adjust total
-  cart.total -= item.product.price * item.quantity
-
   item.remove()
+
+  // Recalculate the total
+    cart.total = recalculateTotal(cart)
 
   await cart.save()
 
   res.redirect(`/carts/${cart._id}/user/${req.params.userId}`)
-
 })
 
 // POST /carts/:cartId/user/:userId/checkout - checkout to set cart status to inactive
