@@ -5,6 +5,8 @@ const Product = require('../models/product')
 const Category = require('../models/category')
 const Cart = require('../models/cart')
 
+const isSignedIn = require('../middleware/is-signed-in')
+router.use(isSignedIn)
 
 // Routes/ API's/ Functionality
 
