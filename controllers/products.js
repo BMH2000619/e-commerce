@@ -56,6 +56,21 @@ router.get('/:productId/edit', async (req, res) => {
   res.render('products/edit.ejs', { product: currentProduct })
 })
 
+router.put('/:productId', async (req, res) => {
+  try {
+    const currentProduct = await Product.findById(req.params.productId)
+    if (currentProduct.seller.equals(req.session.user._id)) {
+      await currentProduct.updateOne(req.body)
+      res.redirect('/products')
+    } else {
+      res.send("You don't have permission to do that.")
+    }
+  } catch (error) {
+    console.log(error)
+    res.redirect('/')
+  }
+})
+
 // DELETE /products/product:id - Delete product
 router.delete('/:productId', async (req, res) => {
   const product = await Product.findById(req.params.productId)
