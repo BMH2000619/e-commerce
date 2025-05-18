@@ -3,6 +3,10 @@ const router = express.Router()
 
 const Product = require('../models/product')
 const Category = require('../models/category')
+const Cart = require('../models/cart')
+
+const isSignedIn = require('../middleware/is-signed-in')
+router.use(isSignedIn)
 
 // Routes/ API's/ Functionality
 
@@ -19,16 +23,31 @@ router.get('/new', async (req, res) => {
 })
 
 // POST /products - Form to create new product
-router.post('/', async (req, res) => {
-  const newProduct = new Product(req.body)
+router.post('/', isSignedIn, async (req, res) => {
+  const seller = req.session.user._id
+    const newProduct = new Product({
+      ...req.body,
+      seller 
+    })
+
   await newProduct.save()
   res.redirect('/products')
 })
 
 // GET /products/productId - Show a Product
-router.get('/:productId', async (req,res) => {
-  const product = await Product.find(req.params.id)
-  res.render('/products/show.ejs', {product})
+router.get('/:productId', isSignedIn, async (req,res) => {
+  const product = await Product.findById(req.params.productId).populate('seller')
+  const userId = req.session.user._id;
+
+  const cart = await Cart.findOne({
+    user: userId,
+    status: 'active'
+  })
+
+// Set cartId to null if no active cart
+  const cartId = cart ? cart._id : null
+
+  res.render('products/show.ejs', {product, userId, cartId})
 })
 
 // GET /products/:productId/edit - Form to edit a product

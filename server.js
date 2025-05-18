@@ -54,12 +54,8 @@ app.get('/', (req, res) => {
   })
 })
 
-app.use('/products', productController)
-<<<<<<< HEAD
 app.use('/auth', authController)
-=======
-app.use("/auth", authController);
->>>>>>> 2595b1ea205d74dcede5b632399e1fff178ce08d
+app.use('/products', productController)
 app.use('/orders', orderController)
 app.use('/categories', categoryController)
 app.use('/carts', cartController)
