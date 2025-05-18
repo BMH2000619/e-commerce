@@ -8,8 +8,6 @@ const Cart = require('../models/cart')
 const isSignedIn = require('../middleware/is-signed-in')
 router.use(isSignedIn)
 
-const isSignedIn = require('../middleware/is-signed-in')
-router.use(isSignedIn)
 
 // Routes/ API's/ Functionality
 
