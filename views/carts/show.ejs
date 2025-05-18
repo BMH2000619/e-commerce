@@ -30,7 +30,7 @@
   </ul>
 
   <p>Total: <%= cart.total %> BD</p>
-  <form action="/carts/<%= cart._id %>/user/<%= user._id %>/checkout" method="POST">
+  <form action="/orders" method="POST">
     <button type="submit">Checkout</button>
   </form>
 

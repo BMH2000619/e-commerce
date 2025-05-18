@@ -11,7 +11,18 @@ router.get('/', async (req, res) => {
     }
   })
 
-  res.render('orders/index.ejs', { orders })
+  // Filter orders where the cart's user matches the logged-in user
+  const userOrders = orders.filter(order =>
+  order.cartId &&
+  order.cartId.user &&
+  order.cartId.user._id &&
+  req.session.user &&
+  req.session.user._id &&
+  order.cartId.user._id.equals(req.session.user._id)
+)
+
+
+  res.render('orders/index.ejs', { orders: userOrders })
 })
 
 // POST /orders - create new order from user's active cart

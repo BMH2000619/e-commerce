@@ -1,0 +1,18 @@
+<%- include('../partials/_navbar') %>
+<h2>Order Details</h2>
+<p>Order ID: <%= order._id %></p>
+<p>Status: <%= order.status %></p>
+<p>Order placed for: <%= order.cartId.user.username %></p>
+
+<ul>
+  <% order.cartId.items.forEach(item => { %>
+    <li>
+      <img src="<%= item.product.img %>" alt="<%= item.product.name %>" width="50">
+      <%= item.product.name %> -
+      Quantity: <%= item.quantity %> -
+      Price: <%= item.product.price %> BD
+    </li>
+  <% }) %>
+</ul>
+
+<p>Total: <%= order.cartId.total %> BD</p>

@@ -117,7 +117,7 @@ router.post('/:cartId/user/:userId/checkout', async (req, res) => {
   const cart = await Cart.findById(req.params.cartId).populate('items.product')
   cart.status = 'inactive'
   await cart.save()
-  res.redirect('/placeholder')
+  res.redirect('/orders/:orderId')
 })
 
 module.exports = router
