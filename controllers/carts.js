@@ -58,8 +58,15 @@ router.get('/:cartId/user/:userId', async (req, res) => {
 
 // POST /carts/:cartId/user/:userId/items - Add item to cart
 router.post('/:cartId/user/:userId/items', async (req, res) => {
+  try{
   const cart = await Cart.findById(req.params.cartId).populate('items.product')
+  if (!cart) {
+  return res.status(404).send('Cart not found');
+}
   const product = await Product.findById(req.body.productId)
+  if (!product) {
+  return res.status(404).send('Product not found');
+}
 
   // check if product is already in cart
   const existingItem = cart.items.find((item) =>
@@ -79,6 +86,10 @@ router.post('/:cartId/user/:userId/items', async (req, res) => {
   await cart.save()
 
   res.redirect(`/carts/${cart._id}/user/${req.params.userId}`)
+} catch (error) {
+  console.error(error)
+  res.status(500).send('Internal Server Error')
+}
 })
 
 // POST carts/:cartId/user/:userId/items/:itemId - Update quantity in cart
@@ -106,7 +117,9 @@ router.delete('/:cartId/user/:userId/items/:itemId', async (req, res) => {
   const cart = await Cart.findById(req.params.cartId).populate('items.product')
   const item = cart.items.id(req.params.itemId)
 
-  item.remove()
+  await Cart.findByIdAndUpdate(req.params.cartId, {
+    $pull: {items: item._id}
+  })
 
   // Recalculate the total
   cart.total = recalculateTotal(cart)
