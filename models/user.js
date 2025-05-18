@@ -14,8 +14,7 @@ const userSchema = new mongoose.Schema({
     ref: 'Cart'
   },
   img: {
-    type: String,
-    required: true
+    type: String
   }
 })
 
