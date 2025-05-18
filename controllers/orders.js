@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const Order = require('../models/order')
-// const Cart = require('../models/cart')
+const Cart = require('../models/cart')
 
 // GET /orders - list all orders
 router.get('/', async (req, res) => {

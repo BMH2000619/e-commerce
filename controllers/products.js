@@ -4,6 +4,9 @@ const router = express.Router()
 const Product = require('../models/product')
 const Category = require('../models/category')
 
+const isSignedIn = require('../middleware/is-signed-in')
+router.use(isSignedIn)
+
 // Routes/ API's/ Functionality
 
 // GET /products - List all Products
@@ -19,8 +22,13 @@ router.get('/new', async (req, res) => {
 })
 
 // POST /products - Form to create new product
-router.post('/', async (req, res) => {
-  const newProduct = new Product(req.body)
+router.post('/', isSignedIn, async (req, res) => {
+  const seller = req.session.user._id
+    const newProduct = new Product({
+      ...req.body,
+      seller 
+    })
+
   await newProduct.save()
   res.redirect('/products')
 })
