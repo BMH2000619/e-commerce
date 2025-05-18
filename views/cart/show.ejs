@@ -1,0 +1,35 @@
+<!-- !!!!!!!!!!!!!!nav bar missing!!!!!!!!!!!!!!!! -->
+
+<h2>Cart</h2>
+
+<% if(cart.items.length === 0) { %>
+  <p>Your Cart is Empty.</p>
+  <a href="/products">Today's Deals</a>
+<% } else { %>
+  <ul>
+    <% cart.items.forEach(item => { %>
+      <li>
+        <img src="<%= item.product.img %>" alt="<%= item.product.name %>" />
+        <%= item.product.name %>
+        <%= item.product.price %>
+        
+        
+        <form method="POST" action="/carts/<%= cart._id %>/user/<%= user._id %>/items/<%= item._id %>">
+          <input type="number" name="quantity" id="quantity" value="<%= item.quantity %>" min="1">
+          <button type="submit">update</button>
+        </form>
+
+
+        <form method="POST" action="/carts/<%= cart._id %>/user/<%= user._id %>/items/<%= item._id %>"?_method=DELETE">
+        <button type="submit">Remove</button>
+        </form>
+      </li>
+  <% }) %>
+  </ul>
+
+  <p>Total: $<%= cart.total %></p>
+  <form action="/carts/<%= cart._id %>/user/<%= user._id %>/checkout" method="POST">
+    <button type="submit">Checkout</button>
+  </form>
+
+<% } %>

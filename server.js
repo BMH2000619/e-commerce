@@ -48,6 +48,7 @@ app.use(passUserToView);
 const productController = require('./controllers/products')
 const orderController = require('./controllers/orders')
 const categoryController = require('./controllers/categories')
+const cartController = require('./controllers/carts')
 const authController = require("./controllers/auth.js");
 
 app.get('/', (req, res) => {
@@ -59,7 +60,8 @@ app.get('/', (req, res) => {
 app.use('products', productController)
 app.use("/auth", authController);
 app.use('orders', orderController)
-app.use('cateories', categoryController)
+app.use('categories', categoryController)
+app.use('carts', cartController)
 
 app.use(isSignedIn);
 
