@@ -1,15 +1,10 @@
-<!-- views/categories/show.ejs -->
-
 <h1>Products in <%= category.name %></h1>
 
 <ul>
   <% products.forEach(product => { %>
   <li>
-    <h3><%= product.name %></h3>
-    <img src="<%= product.img %>" alt="<%= product.name %>" width="150" />
-    <p>Price: $<%= product.price.toFixed(2) %></p>
-    <p><%= product.description %></p>
-    <a href="/products/<%= product._id %>">View Product</a>
+    <a href="/products/<%= product._id %>"><%= product.name %></a> -  <%=
+    product.price %> BD
   </li>
   <% }) %>
 </ul>

@@ -5,9 +5,6 @@ const Product = require('../models/product')
 const Category = require('../models/category')
 const Cart = require('../models/cart')
 
-const isSignedIn = require('../middleware/is-signed-in')
-router.use(isSignedIn)
-
 
 // Routes/ API's/ Functionality
 
@@ -55,6 +52,21 @@ router.get('/:productId', isSignedIn, async (req,res) => {
 router.get('/:productId/edit', async (req, res) => {
   const currentProduct = await Product.findById(req.params.productId)
   res.render('products/edit.ejs', { product: currentProduct })
+})
+
+router.put('/:productId', async (req, res) => {
+  try {
+    const currentProduct = await Product.findById(req.params.productId)
+    if (currentProduct.seller.equals(req.session.user._id)) {
+      await currentProduct.updateOne(req.body)
+      res.redirect('/products')
+    } else {
+      res.send("You don't have permission to do that.")
+    }
+  } catch (error) {
+    console.log(error)
+    res.redirect('/')
+  }
 })
 
 // DELETE /products/product:id - Delete product

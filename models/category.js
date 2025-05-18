@@ -2,8 +2,7 @@ const mongoose = require('mongoose')
 
 const categorySchema = new mongoose.Schema({
   name: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Product',
+    type: String,
     require: true
   }
 })
