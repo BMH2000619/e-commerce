@@ -34,18 +34,26 @@ router.post('/', isSignedIn, async (req, res) => {
 
 // GET /products/productId - Show a Product
 router.get('/:productId', isSignedIn, async (req,res) => {
-  const product = await Product.findById(req.params.productId).populate('seller')
-  const userId = req.session.user._id;
+  const product = await Product.findById(req.params.productId).populate(
+    'seller'
+  )
+  const userId = req.session.user._id
 
-  const cart = await Cart.findOne({
-    user: userId,
-    status: 'active'
-  })
+  // Find or create an active cart for this user
+  let cart = await Cart.findOne({ user: userId, status: 'active' })
 
-// Set cartId to null if no active cart
-  const cartId = cart ? cart._id : null
+  if (!cart) {
+    cart = await Cart.create({
+      user: userId,
+      items: [],
+      total: 0,
+      status: 'active'
+    })
+  }
+  const cartId = cart._id
 
-  res.render('products/show.ejs', {product, userId, cartId})
+  res.render('products/show.ejs', { product, userId, cartId, user: req.session.user })
+
 })
 
 // GET /products/:productId/edit - Form to edit a product
