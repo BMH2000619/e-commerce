@@ -65,17 +65,26 @@ router.get('/sign-out', (req, res) => {
 // GET /auth/profile - Show user profile
 router.get('/profile', async (req, res) => {
   if (!req.session.user) return res.redirect('/auth/sign-in')
+  const userId = req.session.user._id
+  const user = await User.findById(userId)
+  const carts = await Cart.find({ user: userId })
+    
+    const cartIds = []
+    carts.forEach(cart => {
+      cartIds.push(cart._id)
+    })
+    
+    const orders = await Order.find({ cartId: { $in: cartIds } }).populate(
+      {
+        path: 'cartId',
+        populate: { path: 'items.product' }
+      })
 
-  const user = await User.findById(req.session.user._id)
-  const carts = await Cart.find({ user: user._id })
-  const cartIds = carts.map(cart => cart._id)
-
-  const orders = await Order.find({ cartId: { $in: cartIds } }).populate({
-    path: 'cartId',
-    populate: { path: 'items.product' }
-  })
-
-  res.render('auth/profile.ejs', { user, orders })
+    res.render('auth/profile.ejs', 
+      { 
+      user: user, 
+      orders: orders 
+    })
 })
 
 module.exports = router

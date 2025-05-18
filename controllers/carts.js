@@ -83,7 +83,7 @@ router.post('/:cartId/user/:userId/items', async (req, res) => {
 router.post('/:cartId/user/:userId/items/:itemId', async (req, res) => {
   const cart = await Cart.findById(req.params.cartId).populate('items.product')
   const item = cart.items.id(req.params.itemId)
-  const product = item.product;
+  const product = item.product
 
   // Validate and parse new quantity
   const newQuantity = parseInt(req.body.quantity, 10)
