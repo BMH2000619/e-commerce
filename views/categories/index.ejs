@@ -1,11 +1,7 @@
-<!-- views/categories/index.ejs -->
-
 <h1>Shop by Category</h1>
 
 <ul>
   <% categories.forEach(category => { %>
-  <li>
-    <a href="/categories/<%= category._id %>"><%= category.name %></a>
-  </li>
+  <li><a href="/categories/<%= category %>"><%= category %></a></li>
   <% }) %>
 </ul>

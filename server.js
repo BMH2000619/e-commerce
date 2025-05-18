@@ -11,9 +11,7 @@ const morgan = require('morgan')
 const session = require('express-session')
 const passUserToView = require('./middleware/pass-user-to-view')
 const isSignedIn = require('./middleware/is-signed-in')
-const bodyParser = require('body-parser');
-
-
+const bodyParser = require('body-parser')
 
 // Set the port from environment variable or default to 3000
 const port = process.env.PORT ? process.env.PORT : '3009'
@@ -31,39 +29,38 @@ app.use(express.urlencoded({ extended: false }))
 app.use(methodOverride('_method'))
 // Morgan for logging HTTP requests
 app.use(morgan('dev'))
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: true
   })
-);
+)
 
-
-app.use(passUserToView);
+app.use(passUserToView)
 
 // Require controller
 const productController = require('./controllers/products')
 const orderController = require('./controllers/orders')
 const categoryController = require('./controllers/categories')
 const cartController = require('./controllers/carts')
-const authController = require("./controllers/auth.js");
+const authController = require('./controllers/auth.js')
 
 app.get('/', (req, res) => {
   res.render('index.ejs', {
-    user: req.session.user,
-  });
-});
+    user: req.session.user
+  })
+})
 
+app.use('/auth', authController)
 app.use('/products', productController)
-app.use("/auth", authController);
 app.use('/orders', orderController)
 app.use('/categories', categoryController)
 app.use('/carts', cartController)
 
-app.use(isSignedIn);
+app.use(isSignedIn)
 
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`)
