@@ -1,35 +1,30 @@
-<!-- <%- include('../partials/_navbar') %> -->
+<%- include('../partials/_navbar') %>
 
 <h1>All Orders</h1>
 
 <% if (orders.length === 0) { %>
-  <p>No orders found.</p>
+<p>No orders found.</p>
 <% } else { %>
-  <ul>
-    <% orders.forEach(order => { %>
-      <li>
-        <h3>Order ID: <%= order._id %></h3>
-        <p>Status: <%= order.status %></p>
+<ul>
+  <% orders.forEach(order => { %>
+  <li>
+    <h3>Order ID: <%= order._id %></h3>
+    <p>Status: <%= order.status %></p>
 
-        <% if (order.cartId && order.cartId.user) { %>
-          <p>Ordered by: <%= order.cartId.user.username %></p>
-        <% } %>
+    <% if (order.cartId && order.cartId.user) { %>
+    <p>Ordered by: <%= order.cartId.user.username %></p>
+    <% } %> <% if (order.cartId && order.cartId.items.length > 0) { %>
+    <ul>
+      <% order.cartId.items.forEach(item => { %>
+      <li><%= item.product.name %> - Quantity: <%= item.quantity %></li>
+      <% }) %>
+    </ul>
+    <% } else { %>
+    <p>No items in cart.</p>
+    <% } %>
 
-        <% if (order.cartId && order.cartId.items.length > 0) { %>
-          <ul>
-            <% order.cartId.items.forEach(item => { %>
-              <li>
-                <%= item.product.name %> - Quantity: <%= item.quantity %>
-              </li>
-            <% }) %>
-          </ul>
-        <% } else { %>
-          <p>No items in cart.</p>
-        <% } %>
-
-        <a href="/orders/<%= order._id %>">View Details</a>
-      </li>
-    <% }) %>
-  </ul>
+    <a href="/orders/<%= order._id %>">View Details</a>
+  </li>
+  <% }) %>
+</ul>
 <% } %>
-
