@@ -58,36 +58,58 @@ router.get('/:cartId/user/:userId', async (req, res) => {
 
 // POST /carts/:cartId/user/:userId/items - Add item to cart
 router.post('/:cartId/user/:userId/items', async (req, res) => {
-  try {
-    const cart = await Cart.findById(req.params.cartId).populate(
-      'items.product'
-    )
-    if (!cart) {
-      return res.status(404).send('Cart not found')
-    }
-    const product = await Product.findById(req.body.productId)
-    if (!product) {
-      return res.status(404).send('Product not found')
-    }
-    // check if product is already in cart
-    const existingItem = cart.items.find((item) =>
-      item.product._id.equals(product._id)
-    )
-    if (existingItem) {
-      // if item exists increase quantity
-      existingItem.quantity += Number(req.body.quantity)
-    } else {
-      // else item doesn't exist add to cart
-      cart.items.push({ product: product._id, quantity: req.body.quantity })
-    }
-    // Recalculate the total
-    cart.total = recalculateTotal(cart)
-    await cart.save()
-    res.redirect(`/carts/${cart._id}/user/${req.params.userId}`)
-  } catch (error) {
-    console.error(req.body.productId)
-    res.status(500).send('Internal Server Error')
+  try{
+  const cart = await Cart.findById(req.params.cartId).populate('items.product')
+  if (!cart) {
+  return res.status(404).send('Cart not found');
+}
+  const product = await Product.findById(req.body.productId)
+  if (!product) {
+  return res.status(404).send('Product not found');
+}
+
+  // check if product is already in cart
+  const existingItem = cart.items.find((item) =>
+    item.product._id.equals(product._id)
+  )
+  if (existingItem) {
+    // if item exists increase quantity
+    existingItem.quantity += Number(req.body.quantity)
+  } else {
+    // else item doesn't exist add to cart
+    cart.items.push({ product: product._id, quantity: req.body.quantity })
   }
+
+  // Recalculate the total
+  cart.total = recalculateTotal(cart)
+
+  await cart.save()
+
+  res.redirect(`/carts/${cart._id}/user/${req.params.userId}`)
+} catch (error) {
+  console.error(error)
+  res.status(500).send('Internal Server Error')
+}
+})
+
+// POST carts/:cartId/user/:userId/items/:itemId - Update quantity in cart
+router.post('/:cartId/user/:userId/items/:itemId', async (req, res) => {
+  const cart = await Cart.findById(req.params.cartId).populate('items.product')
+  const item = cart.items.id(req.params.itemId)
+
+  const newQuantity = parseInt(req.body.quantity)
+  if (newQuantity <= 0) {
+    return res.send('Invalid quantity')
+  }
+
+  item.quantity = newQuantity
+
+  // Recalculate the total
+  cart.total = recalculateTotal(cart)
+
+  await cart.save()
+
+  res.redirect(`/carts/${cart._id}/user/${req.params.userId}`)
 })
 
 // DELETE carts/:cartId/user/:userId/items/:itemId - Remove Item from cart
@@ -95,7 +117,9 @@ router.delete('/:cartId/user/:userId/items/:itemId', async (req, res) => {
   const cart = await Cart.findById(req.params.cartId).populate('items.product')
   const item = cart.items.id(req.params.itemId)
 
-  item.remove()
+  await Cart.findByIdAndUpdate(req.params.cartId, {
+    $pull: {items: item._id}
+  })
 
   // Recalculate the total
   cart.total = recalculateTotal(cart)
