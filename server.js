@@ -57,11 +57,11 @@ app.get('/', (req, res) => {
   });
 });
 
-app.use('products', productController)
+app.use('/products', productController)
 app.use("/auth", authController);
-app.use('orders', orderController)
-app.use('categories', categoryController)
-app.use('carts', cartController)
+app.use('/orders', orderController)
+app.use('/categories', categoryController)
+app.use('/carts', cartController)
 
 app.use(isSignedIn);
 
