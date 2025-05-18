@@ -4,7 +4,6 @@ const router = express.Router()
 const Product = require('../models/product')
 const Category = require('../models/category')
 
-
 router.get('/', async (req, res) => {
   try {
     const categories = await Category.find()
