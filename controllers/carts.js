@@ -12,7 +12,7 @@ router.use(methodOverride('_method'))
 const recalculateTotal = (cart) => {
   let total = 0
   cart.items.forEach((item) => {
-    const price = item.product?.price
+    const price = item.product.price
     const quantity = Number(item.quantity)
     total += price * quantity
   })
@@ -21,7 +21,6 @@ const recalculateTotal = (cart) => {
 
 // GET /carts - Create a new Cart
 router.get('/', async (req, res) => {
-  if (!req.session.user) return res.redirect('/auth/sign-in')
   const isCartActive = await Cart.findOne({
     user: req.session.user._id,
     status: 'active'
