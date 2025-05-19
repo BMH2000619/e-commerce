@@ -36,9 +36,7 @@ router.post('/', isSignedIn, async (req, res) => {
 
 // GET /products/productId - Show a Product
 router.get('/:productId', isSignedIn, async (req,res) => {
-  const product = await Product.findById(req.params.productId).populate(
-    'seller'
-  )
+  const product = await Product.findById(req.params.productId).populate('seller').populate('category')
   const userId = req.session.user._id
 
   // Find or create an active cart for this user
