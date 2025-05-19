@@ -58,7 +58,7 @@ app.use('/auth', authController)
 app.use('/products', productController)
 app.use('/orders', orderController)
 app.use('/categories', categoryController)
-app.use('/carts', cartController)
+app.use('/carts', isSignedIn, cartController)
 
 app.use(isSignedIn)
 
