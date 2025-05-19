@@ -7,11 +7,13 @@ const app = express()
 const mongoose = require('mongoose')
 const methodOverride = require('method-override')
 const morgan = require('morgan')
-
+const multer  = require('multer')
 const session = require('express-session')
+const bodyParser = require('body-parser')
+
 const passUserToView = require('./middleware/pass-user-to-view')
 const isSignedIn = require('./middleware/is-signed-in')
-const bodyParser = require('body-parser')
+
 
 // Set the port from environment variable or default to 3000
 const port = process.env.PORT ? process.env.PORT : '3009'
@@ -21,6 +23,7 @@ mongoose.connect(process.env.MONGODB_URI)
 mongoose.connection.on('connected', () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`)
 })
+
 
 // Middleware to parse URL-encoded data from forms
 app.use(express.urlencoded({ extended: false }))
@@ -40,6 +43,8 @@ app.use(
 )
 
 app.use(passUserToView)
+
+app.use(express.static('public'))
 
 // Require controller
 const productController = require('./controllers/products')

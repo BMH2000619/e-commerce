@@ -6,25 +6,43 @@ const bcrypt = require('bcrypt')
 const Order = require('../models/order')
 const Cart = require('../models/cart')
 
+const upload = require('../middleware/multer-config')
+
 router.get('/sign-up', (req, res) => {
   res.render('auth/sign-up.ejs')
 })
 
-router.post('/sign-up', async (req, res) => {
+router.post('/sign-up', upload.single('img'), async (req, res) => {
   const userInDatabase = await User.findOne({ username: req.body.username })
   if (userInDatabase) {
     return res.send('Username already taken.')
   }
 
+  let profileImagePath = '';
+    if (req.file) {
+      profileImagePath = req.file.path.replace('public/', '')
+    }
+
   const hashedPassword = bcrypt.hashSync(req.body.password, 10)
   req.body.password = hashedPassword
 
-  const user = await User.create(req.body)
+  const user = await User.create({
+  username: req.body.username,
+  email: req.body.email,
+  phone: req.body.phone,
+  address: req.body.address,
+  password: hashedPassword,
+  img: req.file ? 'uploads/' + req.file.filename : ''
+})
 
-  req.session.user = {
-    username: user.username,
-    _id: user._id
-  }
+req.session.user = {
+  _id: user._id,
+  username: user.username,
+  email: user.email,
+  phone: user.phone,
+  address: user.address,
+  img: user.img
+};
 
   req.session.save(() => {
     res.redirect('/')
