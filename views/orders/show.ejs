@@ -7,7 +7,7 @@
 <ul>
   <% order.cartId.items.forEach(item => { %>
     <li>
-      <img src="<%= item.product.img %>" alt="<%= item.product.name %>" width="50">
+      <img src="/<%= item.product.img %>" alt="<%= item.product.name %>" width="50">
       <%= item.product.name %> -
       Quantity: <%= item.quantity %> -
       Price: <%= item.product.price %> BD
