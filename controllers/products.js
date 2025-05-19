@@ -5,6 +5,8 @@ const Product = require('../models/product')
 const Category = require('../models/category')
 const Cart = require('../models/cart')
 const isSignedIn = require('../middleware/is-signed-in')
+const upload = require('../middleware/multer-config')
+
 router.use(isSignedIn)
 // Routes/ API's/ Functionality
 
@@ -21,11 +23,13 @@ router.get('/new', async (req, res) => {
 })
 
 // POST /products - Form to create new product
-router.post('/', isSignedIn, async (req, res) => {
+router.post('/', isSignedIn, upload.single('img'), async (req, res) => {
   const seller = req.session.user._id
+  const imgPath = req.file ? 'uploads/' + req.file.filename : ''
   const newProduct = new Product({
     ...req.body,
-    seller
+    seller,
+    img: imgPath
   })
 
   await newProduct.save()
