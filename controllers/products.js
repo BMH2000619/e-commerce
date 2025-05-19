@@ -4,10 +4,8 @@ const router = express.Router()
 const Product = require('../models/product')
 const Category = require('../models/category')
 const Cart = require('../models/cart')
-
 const isSignedIn = require('../middleware/is-signed-in')
 router.use(isSignedIn)
-
 // Routes/ API's/ Functionality
 
 // GET /products - List all Products
@@ -25,10 +23,10 @@ router.get('/new', async (req, res) => {
 // POST /products - Form to create new product
 router.post('/', isSignedIn, async (req, res) => {
   const seller = req.session.user._id
-    const newProduct = new Product({
-      ...req.body,
-      seller 
-    })
+  const newProduct = new Product({
+    ...req.body,
+    seller
+  })
 
   await newProduct.save()
   res.redirect('/products')
@@ -52,8 +50,12 @@ router.get('/:productId', isSignedIn, async (req,res) => {
   }
   const cartId = cart._id
 
-  res.render('products/show.ejs', { product, userId, cartId, user: req.session.user })
-
+  res.render('products/show.ejs', {
+    product,
+    userId,
+    cartId,
+    user: req.session.user
+  })
 })
 
 // GET /products/:productId/edit - Form to edit a product
