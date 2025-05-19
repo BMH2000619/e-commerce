@@ -1,11 +1,22 @@
 <%- include('../partials/_navbar') %>
 
 <h2>Profile</h2>
-<img src="<%= user.img %>" alt="Profile Image"/>
+
+<% if (user.img) { %>
+  <img src="/<%= user.img %>" alt="Profile Image">
+<% } else { %>
+  <img src="/default-profile.png" alt="Default Profile Image"/>
+<% } %>
+
 <p>Username: <%= user.username %></p>
+<br/>
 <p>Email: <%= user.email %></p>
+<br/>
 <p>Phone: <%= user.phone %></p>
+<br/>
 <p>Address: <%= user.address %></p>
+<br/>
+
 
 <h3>My Orders</h3>
 <ul>
