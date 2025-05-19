@@ -4,10 +4,6 @@ const router = express.Router()
 const Cart = require('../models/cart')
 const Product = require('../models/product')
 
-const methodOverride = require('method-override')
-router.use(methodOverride('_method'))
-
-
 // Function to Recalculate the total
 const recalculateTotal = (cart) => {
   let total = 0
@@ -51,32 +47,32 @@ router.get('/:cartId/user/:userId', async (req, res) => {
 
 // POST /carts/:cartId/user/:userId/items - Add item to cart
 router.post('/:cartId/user/:userId/items', async (req, res) => {
-    const cart = await Cart.findById(req.params.cartId).populate('items.product')
+  const cart = await Cart.findById(req.params.cartId).populate('items.product')
 
-    const product = await Product.findById(req.body.productId)
+  const product = await Product.findById(req.body.productId)
 
-    // Validate and parse quantity
-    const quantity = parseInt(req.body.quantity)
-    if (isNaN(quantity) || quantity <= 0) {
-      return res.status(400).send('Invalid quantity')
-    }
+  // Validate and parse quantity
+  const quantity = parseInt(req.body.quantity)
+  if (isNaN(quantity) || quantity <= 0) {
+    return res.status(400).send('Invalid quantity')
+  }
 
-    // check if product is already in cart
-    const existingItem = cart.items.find((item) =>
-      item.product._id.equals(product._id)
-    )
+  // check if product is already in cart
+  const existingItem = cart.items.find((item) =>
+    item.product._id.equals(product._id)
+  )
 
-    if (existingItem) {
-      existingItem.quantity += quantity
-    } else {
-      cart.items.push({ product: product._id, quantity })
-    }
+  if (existingItem) {
+    existingItem.quantity += quantity
+  } else {
+    cart.items.push({ product: product._id, quantity })
+  }
 
-    //populate objectId before recalculating to avoid quantity being NaN
-    await cart.populate('items.product')
-    cart.total = recalculateTotal(cart)
-    await cart.save()
-    res.redirect(`/carts/${cart._id}/user/${req.params.userId}`)
+  //populate objectId before recalculating to avoid quantity being NaN
+  await cart.populate('items.product')
+  cart.total = recalculateTotal(cart)
+  await cart.save()
+  res.redirect(`/carts/${cart._id}/user/${req.params.userId}`)
 })
 
 // POST /carts/:cartId/user/:userId/items/:itemId - Update quantity in cart
@@ -93,7 +89,6 @@ router.post('/:cartId/user/:userId/items/:itemId', async (req, res) => {
 
   item.quantity = newQuantity
 
-
   //populate objectId before recalculating to avoid quantity being NaN
   await cart.populate('items.product')
   cart.total = recalculateTotal(cart)
@@ -104,7 +99,7 @@ router.post('/:cartId/user/:userId/items/:itemId', async (req, res) => {
 // DELETE /carts/:cartId/user/:userId/items/:itemId - Remove Item from cart
 router.delete('/:cartId/user/:userId/items/:itemId', async (req, res) => {
   const cart = await Cart.findById(req.params.cartId).populate('items.product')
-  cart.items = cart.items.filter(item => !item._id.equals(req.params.itemId))
+  cart.items = cart.items.filter((item) => !item._id.equals(req.params.itemId))
   //populate objectId before recalculating to avoid quantity being NaN
   await cart.populate('items.product')
   cart.total = recalculateTotal(cart)
