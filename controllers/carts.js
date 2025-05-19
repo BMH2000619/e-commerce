@@ -4,116 +4,120 @@ const router = express.Router()
 const Cart = require('../models/cart')
 const Product = require('../models/product')
 
-// Function to Recalculate the total 
-    const recalculateTotal = cart => {
-      let total = 0
-      cart.items.forEach( item => {
-        total += item.product.price * item.quantity
-      }) 
-      return total
-    }
+const methodOverride = require('method-override')
+router.use(methodOverride('_method'))
 
-// Routes/ API's/ Functionality
 
-// POST /carts - Create a new Cart
-router.post('/', async (req,res) => {
+// Function to Recalculate the total
+const recalculateTotal = (cart) => {
+  let total = 0
+  cart.items.forEach((item) => {
+    const price = item.product.price
+    const quantity = Number(item.quantity)
+    total += price * quantity
+  })
+  return total
+}
 
-  // Check if there is active cart
+// GET /carts - Create a new Cart
+router.get('/', async (req, res) => {
   const isCartActive = await Cart.findOne({
     user: req.session.user._id,
     status: 'active'
   })
 
-  if(isCartActive) {
-    // Redirect to active cart
+  if (isCartActive) {
     res.redirect(`/carts/${isCartActive._id}/user/${req.session.user._id}`)
   } else {
-    // Create new cart with active status
     const cart = await Cart.create({
       user: req.session.user._id,
       items: [],
       total: 0,
       status: 'active'
     })
-  res.redirect(`/carts/${cart._id}/user/${req.session.user._id}`)
+    res.redirect(`/carts/${cart._id}/user/${req.session.user._id}`)
   }
 })
 
 // GET /carts/:cartId/user/:userId - Get Cart for a user
-router.get('/:cartId/user/:userId', async (req,res) => {
+router.get('/:cartId/user/:userId', async (req, res) => {
   const cart = await Cart.findOne({
-    _id: req.params.cartId, 
-    user: req.params.userId 
+    _id: req.params.cartId,
+    user: req.params.userId
   }).populate('items.product')
 
   res.render('carts/show.ejs', { cart })
 })
 
 // POST /carts/:cartId/user/:userId/items - Add item to cart
-router.post('/:cartId/user/:userId/items', async (req,res) => {
+router.post('/:cartId/user/:userId/items', async (req, res) => {
     const cart = await Cart.findById(req.params.cartId).populate('items.product')
+
     const product = await Product.findById(req.body.productId)
 
-    // check if product is already in cart
-    const existingItem = cart.items.find(item => item.product._id.equals(product._id))
-    if (existingItem) {
-      // if item exists increase quantity 
-      existingItem.quantity += Number(req.body.quantity)
-    } else {
-      // else item doesn't exist add to cart 
-      cart.items.push({ product: product._id, quantity: req.body.quantity })
+    // Validate and parse quantity
+    const quantity = parseInt(req.body.quantity)
+    if (isNaN(quantity) || quantity <= 0) {
+      return res.status(400).send('Invalid quantity')
     }
 
-    // Recalculate the total
-    cart.total = recalculateTotal(cart)
+    // check if product is already in cart
+    const existingItem = cart.items.find((item) =>
+      item.product._id.equals(product._id)
+    )
 
+    if (existingItem) {
+      existingItem.quantity += quantity
+    } else {
+      cart.items.push({ product: product._id, quantity })
+    }
+
+    //populate objectId before recalculating to avoid quantity being NaN
+    await cart.populate('items.product')
+    cart.total = recalculateTotal(cart)
     await cart.save()
-    
     res.redirect(`/carts/${cart._id}/user/${req.params.userId}`)
 })
 
-// POST carts/:cartId/user/:userId/items/:itemId - Update quantity in cart  
-router.post('/:cartId/user/:userId/items/:itemId', async (req,res) => {
+// POST /carts/:cartId/user/:userId/items/:itemId - Update quantity in cart
+router.post('/:cartId/user/:userId/items/:itemId', async (req, res) => {
   const cart = await Cart.findById(req.params.cartId).populate('items.product')
   const item = cart.items.id(req.params.itemId)
-  
-  const newQuantity = parseInt(req.body.quantity)
-    if(newQuantity <= 0) {
-      return res.send('Invalid quantity')
-    }
+  const product = item.product
 
-    item.quantity = newQuantity
+  // Validate and parse new quantity
+  const newQuantity = parseInt(req.body.quantity, 10)
+  if (isNaN(newQuantity) || newQuantity <= 0) {
+    return res.status(400).send('Invalid quantity')
+  }
 
-  // Recalculate the total
-    cart.total = recalculateTotal(cart)
+  item.quantity = newQuantity
 
+
+  //populate objectId before recalculating to avoid quantity being NaN
+  await cart.populate('items.product')
+  cart.total = recalculateTotal(cart)
   await cart.save()
-
   res.redirect(`/carts/${cart._id}/user/${req.params.userId}`)
 })
 
-// DELETE carts/:cartId/user/:userId/items/:itemId - Remove Item from cart
-router.delete('/:cartId/user/:userId/items/:itemId', async (req,res) => {
+// DELETE /carts/:cartId/user/:userId/items/:itemId - Remove Item from cart
+router.delete('/:cartId/user/:userId/items/:itemId', async (req, res) => {
   const cart = await Cart.findById(req.params.cartId).populate('items.product')
-  const item = cart.items.id(req.params.itemId)
-
-  item.remove()
-
-  // Recalculate the total
-    cart.total = recalculateTotal(cart)
-
+  cart.items = cart.items.filter(item => !item._id.equals(req.params.itemId))
+  //populate objectId before recalculating to avoid quantity being NaN
+  await cart.populate('items.product')
+  cart.total = recalculateTotal(cart)
   await cart.save()
-
   res.redirect(`/carts/${cart._id}/user/${req.params.userId}`)
 })
 
 // POST /carts/:cartId/user/:userId/checkout - checkout to set cart status to inactive
-router.post('/:cartId/user/:userId/checkout', async (req,res) => {
-  const cart = await Cart.findById(req.params.cartId)
+router.post('/:cartId/user/:userId/checkout', async (req, res) => {
+  const cart = await Cart.findById(req.params.cartId).populate('items.product')
   cart.status = 'inactive'
   await cart.save()
-  res.redirect('/placeholder')
+  res.redirect('/orders/:orderId')
 })
-
 
 module.exports = router
