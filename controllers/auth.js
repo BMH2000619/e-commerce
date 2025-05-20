@@ -7,6 +7,7 @@ const Order = require('../models/order')
 const Cart = require('../models/cart')
 
 const upload = require('../middleware/multer-config')
+const isSignedIn = require('../middleware/is-signed-in.js')
 
 router.get('/sign-up', (req, res) => {
   res.render('auth/sign-up.ejs')
@@ -81,8 +82,7 @@ router.get('/sign-out', (req, res) => {
 })
 
 // GET /auth/profile - Show user profile
-router.get('/profile', async (req, res) => {
-  if (!req.session.user) return res.redirect('/auth/sign-in')
+router.get('/profile',isSignedIn ,async (req, res) => {
   const userId = req.session.user._id
   const user = await User.findById(userId)
   const carts = await Cart.find({ user: userId })
@@ -104,4 +104,30 @@ router.get('/profile', async (req, res) => {
       orders: orders 
     })
 })
+
+// GET /auth/profile/edit - Render edit profile form
+router.get('/profile/edit', isSignedIn, async (req, res) => {
+  const userId = req.session.user._id
+  const user = await User.findById(userId)
+  res.render('auth/editProfile.ejs', { user })
+})
+
+// POST /auth/profile/edit - profile edited
+router.post('/profile/edit', isSignedIn, upload.single('img'), async (req, res) => {
+  const userId = req.session.user._id
+  const updateData = {
+    username: req.body.username,
+    email: req.body.email,
+    phone: req.body.phone,
+    address: req.body.address
+  }
+  if (req.file) {
+    updateData.img = 'uploads/' + req.file.filename
+  }
+  await User.findByIdAndUpdate(userId, updateData)
+  //update session info also
+  Object.assign(req.session.user, updateData)
+  res.redirect('/auth/profile')
+});
+
 module.exports = router
