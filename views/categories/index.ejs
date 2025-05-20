@@ -1,10 +1,28 @@
-<%- include('../partials/_navbar') %>
-
-<h1>Shop by Category</h1>
-
-<ul>
-  <% categories.forEach(category => { %>
-  <li><a href="/categories/<%= category._id %>"><%= category.name %></a>
-  </li>
-  <% }) %>
-</ul>
+<link
+  href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap"
+  rel="stylesheet"
+/>
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="/stylesheets/cate.css" />
+<body class="box-11">
+  <%- include('../partials/_navbar') %>
+  <div>
+    <div class="box-1">
+      <h1>Shop by Category</h1>
+    </div>
+    <div class="box-2">
+      <ul class="box-21">
+        <% categories.forEach(category => { %>
+        <li class="box-211">
+          <a href="/categories/<%= category._id %>" class="box-221"
+            ><%= category.name %></a
+          >
+        </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+</body>
