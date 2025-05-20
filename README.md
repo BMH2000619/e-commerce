@@ -4,9 +4,9 @@
 
 ### **_By:_** Basel Mohamed / Maryam Aldosari / Jaffar Ali
 
-[GitHub](https://github.com/BMH2000619)
-[GitHub](https://github.com/Maldoseri23)
-[GitHub](https://github.com/Jaffar43)
+[Basel's GitHub](https://github.com/BMH2000619)
+[Maryam's GitHub](https://github.com/Maldoseri23)
+[Jaffar's GitHub](https://github.com/Jaffar43)
 
 ---
 
@@ -27,10 +27,15 @@ This e-commerce web app lets users register, browse products by category, add it
 
 ### **_Screenshots_**
 
-![Image](photos\ERD.png)
-![Image](photos\CanvaEcom.png)
+![Image](https://i.imgur.com/cxbxLlX.png)
+![Image](https://i.imgur.com/OGCAHPX.png)
 
 ### **_Future Updates_**
+
+- [X] Add User, Product, Category, Cart and Order.
+- [X] Add Sign in, Sign up and Sign out.
+- [X] Add View Product, Category, Cart, Order and Profile.
+- [X] Add Create/Edit/Delete to Product, Cart and Profile.
 
 ### **_Credits_**
 
