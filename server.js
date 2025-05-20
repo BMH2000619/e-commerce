@@ -14,6 +14,8 @@ const bodyParser = require('body-parser')
 const passUserToView = require('./middleware/pass-user-to-view')
 const isSignedIn = require('./middleware/is-signed-in')
 
+const Category = require('./models/category')
+
 
 // Set the port from environment variable or default to 3000
 const port = process.env.PORT ? process.env.PORT : '3009'
@@ -53,11 +55,11 @@ const categoryController = require('./controllers/categories')
 const cartController = require('./controllers/carts')
 const authController = require('./controllers/auth.js')
 
-app.get('/', (req, res) => {
+app.get('/', async(req, res) => 
   res.render('index.ejs', {
     user: req.session.user
   })
-})
+)
 
 app.use('/auth', authController)
 app.use('/products', productController)

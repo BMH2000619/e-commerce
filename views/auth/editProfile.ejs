@@ -1,33 +1,61 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="/stylesheets/style.css">
+
 <%- include('../partials/_navbar') %>
 
-<h2>Edit Profile</h2>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+      <div class="card shadow rounded-4">
+        <div class="card-body">
 
-    <form action="/auth/profile/edit" method="POST" enctype="multipart/form-data">
-      <label for="username">Username: </label>
-      <input type="text" name="username" id="username" value="<%= user.username %>"/>
-      <br />
+          <h2 class="card-title text-center mb-4">Edit Profile</h2>
 
-      <label for="email">E-mail: </label>
-      <input type="email" name="email" id="email" value="<%= user.email %>"/>
-      <br />
+          <form action="/auth/profile/edit" method="POST" enctype="multipart/form-data">
 
-      <label for="phone">Phone Number: +973 </label>
-      <input type="phone" name="phone" id="phone" value="<%= user.phone %>"/>
-      <br />
+            <div class="text-center mb-4">
+              <img src="/<%= user.img || 'default-profile.webp' %>" alt="Profile Image"
+                  class="rounded-circle shadow" style="width: 100px; height: 100px; object-fit: cover;">
+            </div>
 
-      <label for="address">Address: </label>
-      <input type="address" name="address" id="address" value="<%= user.address %>"/>
-      <br />
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" name="username" id="username" class="form-control" value="<%= user.username %>" required>
+            </div>
 
-      <label for="password">Password: </label>
-      <input type="password" name="password" id="password" />
-      <br />
+            <div class="mb-3">
+              <label for="email" class="form-label">E-mail</label>
+              <input type="email" name="email" id="email" class="form-control" value="<%= user.email %>" required>
+            </div>
 
-      <img src="/<%= user.img %>" alt="Profile Image"
-      <label for="img">Change Profile Image:</label>
-      <input type="file" name="img" id="img" accept="image/*"/>
-      <br>
+            <div class="mb-3">
+              <label for="phone" class="form-label">Phone Number (+973)</label>
+              <input type="text" name="phone" id="phone" class="form-control" value="<%= user.phone %>">
+            </div>
 
-      <button type="submit">Save Changes</button>
-    </form>
+            <div class="mb-3">
+              <label for="address" class="form-label">Address</label>
+              <input type="text" name="address" id="address" class="form-control" value="<%= user.address %>">
+            </div>
+
+            <div class="mb-3">
+            <label for="password" class="form-label">Password: </label>
+            <input type="password" name="password" id="password" class="form-control"/>
+            </div>
+
+            <div class="mb-3">
+              <label for="img" class="form-label">Change Profile Image</label>
+              <input type="file" name="img" id="img" class="form-control" accept="image/*">
+            </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 

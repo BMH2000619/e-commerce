@@ -1,4 +1,9 @@
-/* --- Custom Body Background --- */
+
+html, body {
+  background-color: #fcfaf2 !important;
+}
+
+
 .container-body {
   background-color: #fcfaf2; /* Your custom background */
 }
@@ -53,3 +58,29 @@ h1 {
     font-size: 1.7rem;
   }
 }
+
+
+.welcome a {
+  margin-left: 18px;
+}
+
+.welcome h1 {
+  font-family: 'Helvetica Neue';
+  font-size: 2.8rem;
+  font-weight: bold;
+  margin-left: 18px;
+  margin-bottom: 20px;
+  color: #1a1a1a;
+}
+
+.welcome p {
+  font-family: 'Segoe UI';
+  font-size: 1.1rem;
+  margin-bottom: 24px;
+  margin-left: 22px;
+  color: #444;
+  line-height: 1.7;
+}
+
+
+
