@@ -6,8 +6,8 @@ const Category = require('../models/category')
 
 router.get('/', async (req, res) => {
   try {
-    const categoryNames = await Product.distinct('category')
-    res.render('categories/index.ejs', { categories: categoryNames })
+    const categories = await Category.find()
+    res.render('categories/index.ejs', { categories })
   } catch (err) {
     console.error(err)
     res.status(500).send('Server Error')
@@ -15,11 +15,11 @@ router.get('/', async (req, res) => {
 })
 
 // controllers/categories.js
-router.get('/:name', async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
-    const categoryName = req.params.name
-    const products = await Product.find({ category: categoryName })
-    res.render('categories/show.ejs', { category: categoryName, products })
+    const category = await Category.findById(req.params.id)
+    const products = await Product.find({ category: category._id })
+    res.render('categories/show.ejs', { category: category, products })
   } catch (err) {
     res.status(500).send('Error fetching category')
   }

@@ -1,0 +1,33 @@
+<%- include('../partials/_navbar') %>
+
+<h2>Edit Profile</h2>
+
+    <form action="/auth/profile/edit" method="POST" enctype="multipart/form-data">
+      <label for="username">Username: </label>
+      <input type="text" name="username" id="username" value="<%= user.username %>"/>
+      <br />
+
+      <label for="email">E-mail: </label>
+      <input type="email" name="email" id="email" value="<%= user.email %>"/>
+      <br />
+
+      <label for="phone">Phone Number: +973 </label>
+      <input type="phone" name="phone" id="phone" value="<%= user.phone %>"/>
+      <br />
+
+      <label for="address">Address: </label>
+      <input type="address" name="address" id="address" value="<%= user.address %>"/>
+      <br />
+
+      <label for="password">Password: </label>
+      <input type="password" name="password" id="password" />
+      <br />
+
+      <img src="/<%= user.img %>" alt="Profile Image"
+      <label for="img">Change Profile Image:</label>
+      <input type="file" name="img" id="img" accept="image/*"/>
+      <br>
+
+      <button type="submit">Save Changes</button>
+    </form>
+

@@ -5,12 +5,14 @@ const Product = require('../models/product')
 const Category = require('../models/category')
 const Cart = require('../models/cart')
 const isSignedIn = require('../middleware/is-signed-in')
+const upload = require('../middleware/multer-config')
+
 router.use(isSignedIn)
 // Routes/ API's/ Functionality
 
 // GET /products - List all Products
 router.get('/', async (req, res) => {
-  const products = await Product.find()
+  const products = await Product.find().populate('category')
   res.render('products/index.ejs', { products })
 })
 
@@ -21,11 +23,17 @@ router.get('/new', async (req, res) => {
 })
 
 // POST /products - Form to create new product
-router.post('/', isSignedIn, async (req, res) => {
+router.post('/', isSignedIn, upload.single('img'), async (req, res) => {
   const seller = req.session.user._id
+  const imgPath = req.file ? 'uploads/' + req.file.filename : ''
   const newProduct = new Product({
-    ...req.body,
-    seller
+    name: req.body.name,
+    description: req.body.description,
+    price: req.body.price,
+    quantity: req.body.quantity,
+    img: imgPath,
+    seller,
+    category: req.body.category
   })
 
   await newProduct.save()
@@ -61,7 +69,8 @@ router.get('/:productId', isSignedIn, async (req,res) => {
 // GET /products/:productId/edit - Form to edit a product
 router.get('/:productId/edit', async (req, res) => {
   const currentProduct = await Product.findById(req.params.productId)
-  res.render('products/edit.ejs', { product: currentProduct })
+  const categories = await Category.find()
+  res.render('products/edit.ejs', { product: currentProduct, categories })
 })
 
 router.put('/:productId', async (req, res) => {

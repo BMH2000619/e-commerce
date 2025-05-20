@@ -1,13 +1,18 @@
 <%- include('../partials/_navbar') %>
 <h1>Add a New Product</h1>
 
-<form method="post" action="/products">
+<form method="post" action="/products"  enctype="multipart/form-data">
   <label for="name">Product Name:</label>
   <input type="text" name="name" id="name">
   <br>
 
   <label for="category">Product Category:</label>
-  <input type="text" name="category" id="category">
+  <select name="category" id="category">
+  <% categories.forEach(category => { %>
+    <option value="<%= category._id %>"> <%= category.name %> </option>
+  <% }) %>
+  </select>
+  <br>
 
   <label for="description">Product Description:</label>
   <textarea name="description" id="description"></textarea>
@@ -21,8 +26,8 @@
   <input type="number" name="quantity" id="quantity">
   <br>
 
-  <label for="img">Product Image URL:</label>
-  <input type="text" name="img" id="img">
+  <label for="img">Product Image:</label>
+  <input type="file" name="img" id="img">
   <br>
 
   <button type="submit">Add Product</button>
