@@ -1,5 +1,5 @@
 /* --- Custom Body Background --- */
-body {
+.container-body {
   background-color: #fcfaf2; /* Your custom background */
 }
 
@@ -9,16 +9,20 @@ h1 {
 }
 
 /* --- Forms --- */
-form {
+#form {
   margin-left: 20px;
 }
 
+#username, #email, #phone, #address, #img, #password, #confirmPassword {
+  width: 350px;
+}
+
 /* --- Bootstrap Overrides (if needed) --- */
-.form-control {
+/*.form-control {*/
   /* Example: If you want to customize input appearance */
   /* border-radius: 0.5rem; */
   /* border-color: #f4d03f; */
-}
+/*}*/
 
 .form-label {
   /* Example: Custom label color */
