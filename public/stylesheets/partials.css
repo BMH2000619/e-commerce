@@ -1,0 +1,25 @@
+
+/* --- Navbar background color --- */
+.navbar {
+  background-color: #f4d03f !important; /* Override Bootstrap default if needed */
+}
+
+/* --- Navbar brand logo size --- */
+.navbar-brand img {
+  width: 60px;
+  height: 60px;
+}
+
+/* --- Navbar links (optional customizations) --- */
+.nav-link.active {
+  color: #333 !important; 
+  font-weight: bold; 
+} 
+
+/* --- Responsive Navbar (optional tweaks) --- */
+@media (max-width: 576px) {
+  .navbar-brand img {
+    width: 40px;
+    height: 40px;
+  }
+}

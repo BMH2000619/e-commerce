@@ -1,0 +1,51 @@
+/* --- Custom Body Background --- */
+body {
+  background-color: #fcfaf2; /* Your custom background */
+}
+
+/* --- Headings --- */
+h1 {
+  margin: 20px 0 0 20px;
+}
+
+/* --- Forms --- */
+form {
+  margin-left: 20px;
+}
+
+/* --- Bootstrap Overrides (if needed) --- */
+.form-control {
+  /* Example: If you want to customize input appearance */
+  /* border-radius: 0.5rem; */
+  /* border-color: #f4d03f; */
+}
+
+.form-label {
+  /* Example: Custom label color */
+  /* color: #333; */
+}
+
+.btn-primary {
+  /* Example: Custom primary button color */
+  /* background-color: #f4d03f; */
+  /* border-color: #f4d03f; */
+  /* color: #333; */
+}
+
+/* --- Column widths for better alignment --- */
+.col-md-7,
+.col-md-6,
+.col-md-5 {
+  max-width: 500px;
+}
+
+/* --- Responsive tweaks (optional) --- */
+@media (max-width: 576px) {
+  form {
+    margin-left: 0;
+  }
+  h1 {
+    margin: 20px 0 0 0;
+    font-size: 1.7rem;
+  }
+}
