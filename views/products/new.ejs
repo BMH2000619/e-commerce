@@ -1,31 +1,67 @@
 <link rel="stylesheet" href="/stylesheets/style.css">
 
 <%- include('../partials/_navbar') %>
-<h1>Add a New Product</h1>
 
-<form method="post" action="/products"  enctype="multipart/form-data">
-  <label for="name">Product Name:</label>
-  <input type="text" name="name" id="name">
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow rounded-4">
+        <div class="card-body">
+          <h1 class="card-title text-center mb-4">Add a New Product</h1>
+          <form method="post" action="/products"  enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="name" class="formlabel">Product Name:</label>
+              <input type="text" name="name" id="name" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label for="category" class="form-label">Product Category:</label>
+              <select name="category" id="category" class="form-select">
+              <% categories.forEach(category => { %>
+                <option value="<%= category._id %>"> <%= category.name %> </option>
+              <% }) %>
+              </select>
+            </div>
+            <div>
+              <label for="description" class="form-label">Product Description:</label>
+              <textarea name="description" id="description" class="form-control rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="price" class="form-label">Product Price:</label>
+              <input type="number" name="price" id="price" class="form-control">
+              </div>
+              <div class="mb-3">
+                <label for="quantity" class="form-label">Product Quantity</label>
+                <input type="number" name="quantity" id="quantity" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label for="img" class="form-label">Product Image</label>
+              <input type="file" name="img" id="img" class="form-control" accept="image/*">
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary px-5">Add Product</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
   <br>
 
-  <label for="category">Product Category:</label>
-  <select name="category" id="category">
-  <% categories.forEach(category => { %>
-    <option value="<%= category._id %>"> <%= category.name %> </option>
-  <% }) %>
-  </select>
-  <br>
-
-  <label for="description">Product Description:</label>
-  <textarea name="description" id="description"></textarea>
+  
   <br>
   
-  <label for="price">Product Price:</label>
-  <input type="number" name="price" id="price">
+ 
   <br>
 
-  <label for="quantity">Product Quantity</label>
-  <input type="number" name="quantity" id="quantity">
+  
   <br>
 
   <label for="img">Product Image:</label>
