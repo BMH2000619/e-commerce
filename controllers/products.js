@@ -12,7 +12,7 @@ router.use(isSignedIn)
 
 // GET /products - List all Products
 router.get('/', async (req, res) => {
-  const products = await Product.find()
+  const products = await Product.find().populate('category')
   res.render('products/index.ejs', { products })
 })
 
@@ -27,9 +27,13 @@ router.post('/', isSignedIn, upload.single('img'), async (req, res) => {
   const seller = req.session.user._id
   const imgPath = req.file ? 'uploads/' + req.file.filename : ''
   const newProduct = new Product({
-    ...req.body,
+    name: req.body.name,
+    description: req.body.description,
+    price: req.body.price,
+    quantity: req.body.quantity,
+    img: imgPath,
     seller,
-    img: imgPath
+    category: req.body.category
   })
 
   await newProduct.save()
@@ -65,7 +69,8 @@ router.get('/:productId', isSignedIn, async (req,res) => {
 // GET /products/:productId/edit - Form to edit a product
 router.get('/:productId/edit', async (req, res) => {
   const currentProduct = await Product.findById(req.params.productId)
-  res.render('products/edit.ejs', { product: currentProduct })
+  const categories = await Category.find()
+  res.render('products/edit.ejs', { product: currentProduct, categories })
 })
 
 router.put('/:productId', async (req, res) => {

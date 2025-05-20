@@ -7,7 +7,12 @@
   <br>
 
   <label for="category">Product Category:</label>
-  <input type="text" name="category" id="category">
+  <select name="category" id="category">
+  <% categories.forEach(category => { %>
+    <option value="<%= category._id %>"> <%= category.name %> </option>
+  <% }) %>
+  </select>
+  <br>
 
   <label for="description">Product Description:</label>
   <textarea name="description" id="description"></textarea>

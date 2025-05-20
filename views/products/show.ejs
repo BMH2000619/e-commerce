@@ -6,7 +6,7 @@
 
 <p><%= product.price %> BD</p>
 
-<p>Category: <%= product.category %></p>
+<p>Category: <%= product.category ? product.category.name : 'No category' %></p>
 
 <p>Description: <%= product.description %></p>
 
