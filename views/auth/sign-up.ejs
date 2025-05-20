@@ -10,7 +10,8 @@
   <body>
     <%- include('../partials/_navbar') %>
     <h1>Create a new account!</h1>
-    <form class="row g-3" action="/auth/sign-up" method="POST">
+    
+    <form class="row g-3" action="/auth/sign-up" method="POST" enctype="multipart/form-data">
       <div class="col-md-7">
         <label for="username" class="form-label">Username:</label>
         <input type="text" class="form-control" name="username" id="username" />
@@ -28,7 +29,7 @@
         <input type="address" class="form-control" name="address" id="address" />
       </div>
       <div class="col-md-6">
-        <label for="password" class="form-label">Password: </label>
+        <label for="password" class="form-label">Password:</label>
         <input type="password" class="form-control" name="password" id="password" />
       </div>
       <div class="col-md-5">
@@ -36,8 +37,8 @@
         <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" />
       </div>
       <div class="col-md-7">
-        <label for="img" class="form-label">Image URL:</label>
-        <input type="text" class="form-control" name="image" id="img" />
+        <label for="img" class="form-label">Profile Image:</label>
+        <input type="file" class="form-control" name="image" id="img" accept="image/* />
       </div>
       <div class="col-12">
         <button type="submit" class="btn btn-primary">Sign up</button>

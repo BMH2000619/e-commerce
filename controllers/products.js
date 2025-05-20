@@ -5,27 +5,35 @@ const Product = require('../models/product')
 const Category = require('../models/category')
 const Cart = require('../models/cart')
 const isSignedIn = require('../middleware/is-signed-in')
-router.use(isSignedIn)
+const upload = require('../middleware/multer-config')
+
+
 // Routes/ API's/ Functionality
 
 // GET /products - List all Products
 router.get('/', async (req, res) => {
-  const products = await Product.find()
+  const products = await Product.find().populate('category')
   res.render('products/index.ejs', { products })
 })
 
 // GET /products/new - Form to create new product
-router.get('/new', async (req, res) => {
+router.get('/new',isSignedIn ,async (req, res) => {
   const categories = await Category.find()
   res.render('products/new.ejs', { categories })
 })
 
 // POST /products - Form to create new product
-router.post('/', isSignedIn, async (req, res) => {
+router.post('/', isSignedIn, upload.single('img'), async (req, res) => {
   const seller = req.session.user._id
+  const imgPath = req.file ? 'uploads/' + req.file.filename : ''
   const newProduct = new Product({
-    ...req.body,
-    seller
+    name: req.body.name,
+    description: req.body.description,
+    price: req.body.price,
+    quantity: req.body.quantity,
+    img: imgPath,
+    seller,
+    category: req.body.category
   })
 
   await newProduct.save()
@@ -33,10 +41,8 @@ router.post('/', isSignedIn, async (req, res) => {
 })
 
 // GET /products/productId - Show a Product
-router.get('/:productId', isSignedIn, async (req, res) => {
-  const product = await Product.findById(req.params.productId).populate(
-    'seller'
-  )
+router.get('/:productId',isSignedIn, async (req,res) => {
+  const product = await Product.findById(req.params.productId).populate('seller').populate('category')
   const userId = req.session.user._id
 
   // Find or create an active cart for this user
@@ -61,9 +67,10 @@ router.get('/:productId', isSignedIn, async (req, res) => {
 })
 
 // GET /products/:productId/edit - Form to edit a product
-router.get('/:productId/edit', async (req, res) => {
+router.get('/:productId/edit',isSignedIn ,async (req, res) => {
   const currentProduct = await Product.findById(req.params.productId)
-  res.render('products/edit.ejs', { product: currentProduct })
+  const categories = await Category.find()
+  res.render('products/edit.ejs', { product: currentProduct, categories })
 })
 
 router.put('/:productId', async (req, res) => {
@@ -82,7 +89,7 @@ router.put('/:productId', async (req, res) => {
 })
 
 // DELETE /products/product:id - Delete product
-router.delete('/:productId', async (req, res) => {
+router.delete('/:productId',isSignedIn ,async (req, res) => {
   const product = await Product.findById(req.params.productId)
   if (product.seller.equals(req.session.user._id)) {
     await product.deleteOne()
