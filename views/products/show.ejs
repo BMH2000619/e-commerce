@@ -1,12 +1,12 @@
 <%- include('../partials/_navbar') %>
 
-<img src="<%= product.img %>" alt="<%= product.name %>" />
+<img src="/<%= product.img %>" alt="<%= product.name %>"/>
 
 <h1><%= product.name %></h1>
 
 <p><%= product.price %> BD</p>
 
-<p>Category: <%= product.category %></p>
+<p>Category: <%= product.category ? product.category.name : 'No category' %></p>
 
 <p>Description: <%= product.description %></p>
 

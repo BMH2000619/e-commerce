@@ -5,8 +5,9 @@
 <ul>
   <% products.forEach(product => { %>
   <li>
-    <a href="/products/<%= product._id %>"><%= product.name %></a> -  <%=
-    product.price %> BD
+    <img src="/<%= product.img %>" alt="<%= product.name %>" >
+    <br>
+    <a href="/products/<%= product._id %>"><%= product.name %></a> -  <%= product.price %> BD
   </li>
   <% }) %>
 </ul>
