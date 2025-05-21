@@ -1,13 +1,13 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<link rel="stylesheet" href="/stylesheets/style.css">
+<link rel="stylesheet" href="/stylesheets/pedit.css">
 
 <%- include('../partials/_navbar') %>
 <div class="footerbottom">
 <div class="container py-5">
   <div class="row justify-content-center">
-    <div class="col-md-7 col-lg-6">
-      <div class="card shadow rounded-4">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+      <div class="card shadow rounded-4 mx-auto">
         <div class="card-body">
 
           <h2 class="card-title text-center mb-4">Edit Profile</h2>
@@ -15,8 +15,8 @@
           <form action="/auth/profile/edit" method="POST" enctype="multipart/form-data">
 
             <div class="text-center mb-4">
-              <img src="/<%= user.img || /'default-profile' %>" alt="Profile Image"
-                  class="rounded-circle shadow" style="width: 100px; height: 100px; object-fit: cover;">
+              <img src="/<%= user.img ? user.img : '/uploads/default-profile.jpg' %>" alt="Profile Image"
+              class="rounded-circle shadow" style="width: 120px; height: 120px;">
             </div>
 
             <div class="mb-3">

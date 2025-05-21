@@ -111,3 +111,20 @@ h1 {
   transform: translateY(-6px) scale(1.03);
   box-shadow: 0 8px 32px rgba(44, 62, 80, 0.13);
 }
+
+body {
+  background: linear-gradient(135deg, #fffbe6 0%, #fdf6ee 100%);
+}
+
+.card {
+  border-radius: 1rem;
+}
+
+.btn-primary {
+  background: #ff8c42;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: #ffa726;
+}

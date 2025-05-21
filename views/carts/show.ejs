@@ -1,96 +1,92 @@
-<link
-  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
-  rel="stylesheet"
-/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/stylesheets/style.css" />
 <link rel="stylesheet" href="/stylesheets/cart.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
 <%- include('../partials/_navbar') %>
-<div class="footerbottom">
 
-<h2>Cart</h2>
-
-<% if(cart.items.length === 0) { %>
-<div class="row">
-  <div class="col-sm-6 mb-3 mb-sm-0">
-    <div class="card">
-      <div class="card-body">
-        <p>Your Cart is Empty.</p>
-        <hr />
-        <a href="/products" class="btn btn-outline-secondary"
-          >Browse Products</a
-        >
+<body class="d-flex flex-column min-vh-100" style="background: #fdf6ee;">
+<main class="flex-grow-1">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+    
+      <div class="col-lg-8 mb-4">
+        <div class="card shadow-sm border rounded-4">
+          <div class="card-body">
+            <h4 class="card-title mb-4">Your Cart</h4>
+            <% if (cart.items.length === 0) { %>
+              <div class="text-center py-5">
+                <p class="fs-4 mb-3"><i class="bi bi-cart4"></i> Your Cart is Empty.</p>
+                <a href="/products" class="btn btn-outline-secondary">Browse Products</a>
+              </div>
+            <% } else { %>
+              <% cart.items.forEach(item => { %>
+                <div class="row align-items-center mb-3 border-bottom pb-3">
+                  <div class="col-3 col-md-2">
+                    <img src="/<%= item.product.img %>" alt="<%= item.product.name %>" class="img-fluid rounded" style="max-width: 60px;">
+                  </div>
+                  <div class="col-5 col-md-4">
+                    <a href="/products/<%= item.product._id %>" class="fw-bold text-decoration-none text-primary">
+                      <%= item.product.name %>
+                    </a>
+                  </div>
+                  <div class="col-4 col-md-3 d-flex align-items-center gap-2">
+                    <form method="POST" action="/carts/<%= cart._id %>/user/<%= user._id %>/items/<%= item._id %>" class="d-flex align-items-center">
+                      <input type="number" name="quantity" value="<%= item.quantity %>" min="1" max="<%= item.product.quantity %>" class="form-control form-control-sm" style="width: 60px;">
+                      <button type="submit" class="btn btn-outline-secondary btn-sm ms-2">Update</button>
+                    </form>
+                  </div>
+                  <div class="col-2 col-md-2 text-end">
+                    <div class="fw-bold"><%= (item.product.price * item.quantity).toFixed(2) %> BD</div>
+                    <form method="POST" action="/carts/<%= cart._id %>/user/<%= user._id %>/items/<%= item._id %>?_method=DELETE" class="mt-2">
+                      <button type="submit" class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              <% }) %>
+              <a href="/products" class="btn btn-outline-primary mt-3">
+                &larr; Continue Shopping
+              </a>
+            <% } %>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
-<% } else { %>
-<!-- <ul> -->
-<!-- <li> -->
-<% cart.items.forEach(item => { %>
-<div class="row g-4">
-  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-    <div class="card">
-      <div class="mb-4">
-        <img
-          src="/<%= item.product.img %>"
-          class="card-img-top"
-          alt="<%= item.product.name %>"
-        />
-        <br />
-        <div class="card-body">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><%= item.product.name %></li>
-            <li class="list-group-item"><%= item.product.price %> BD</li>
-          </ul>
-          <br />
-          <!-- <div class="card-body"> -->
-          <form
-            method="POST"
-            action="/carts/<%= cart._id %>/user/<%= user._id %>/items/<%= item._id %>"
-          >
-            <input
-              type="number"
-              class="form-control"
-              name="quantity"
-              id="quantity"
-              value="<%= item.quantity %>"
-              min="1"
-              max="<%= item.product.quantity %>"
-            />
-            <br />
-            <button type="submit" class="btn btn-outline-secondary">
-              Update
-            </button>
-          </form>
-          <form
-            method="POST"
-            action="/carts/<%= cart._id %>/user/<%= user._id %>/items/<%= item._id %>?_method=DELETE"
-          >
-            <button type="submit" class="btn btn-outline-danger">Remove</button>
-          </form>
+      
+      <div class="col-lg-4">
+        <div class="card shadow-sm border rounded-4 mb-4">
+          <div class="card-body bg-light">
+            <h4 class="card-title mb-4 fw-bold">Order Summary</h4>
+            <div class="d-flex justify-content-between mb-2">
+              <span>Subtotal</span>
+              <span><%= cart.total.toFixed(2) %> BD</span>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span>Shipping</span>
+              <span>2 BD</span>
+            </div>
+            <hr>
+            <% 
+              const shipping = 2.00;
+              const total = cart.total + shipping;
+            %>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <span class="fw-bold fs-5">Total</span>
+              <span class="fw-bold fs-5"><%= total.toFixed(2) %> BD</span>
+            </div>
+            <form action="/orders" method="POST">
+              <button type="submit" class="btn btn-primary btn-lg w-100">
+                Proceed to Checkout
+              </button>
+            </form>
+          </div>
+        </div>
+
         </div>
       </div>
     </div>
   </div>
-</div>
-<% }) %>
-
-<!-- </li> -->
-<!-- </ul> -->
-<div class="row">
-  <div class="col-sm-6 mb-3 mb-sm-0">
-    <div class="card">
-      <div class="card-body">
-        <p>Total: <%= cart.total %> BD</p>
-        <hr />
-        <form action="/orders" method="POST">
-          <button type="submit" class="btn btn-outline-dark">Checkout</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-<% } %>
-</div>
+</main>
 <%- include('../partials/_footerbar') %>
+</body>
