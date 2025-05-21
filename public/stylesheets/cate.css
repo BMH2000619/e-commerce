@@ -15,10 +15,10 @@
 
 .box-221 {
   font-family: 'Inter', sans-serif;
-  font-weight: 500; /* Medium weight is a good default */
-  color: #1a73e8; /* Bright blue for visibility */
-  text-decoration: none; /* Optional: remove underline */
-  transition: color 0.2s ease; /* Smooth hover effect */
+   font-weight: 500; /* Medium weight is a good default  */
+   color: #1a73e8; /* Bright blue for visibility  */
+   text-decoration: none; /* Optional: remove underline  */
+   transition: color 0.2s ease;  /*Smooth hover effect  */
 }
 
 .box-221:hover {
@@ -32,11 +32,11 @@ img {
 }
 
 .box-21 {
-  list-style: none; /* removes the bullet */
+  list-style: none;  /*removes the bullet */
   padding-left: 0;
 }
 
 .box-211 {
-  margin-bottom: 10px; /* spacing between products */
+  margin-bottom: 10px;  /*spacing between products */
   padding-bottom: 10px;
 }
