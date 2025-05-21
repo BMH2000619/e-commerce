@@ -5,24 +5,28 @@
   <div class="container py-5">
     <h1 class="mb-4">Browse All Products</h1>
     <div class="row g-4">
-      <% products.forEach ( product => { %>
-      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-        <a href="/products/<%= product._id %>">
+      <% products.forEach(product => { %>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
           <div class="card h-100 shadow-sm product-card">
-            <img
-              src="/<%= product.img %>"
-              class="card-img-top"
-              alt="<%= product.name %>"
-            />
+            <a href="/products/<%= product._id %>">
+              <img src="/<%= product.img %>" class="card-img-top" alt="<%= product.name %>">
+            </a>
             <div class="card-body text-center">
               <h5 class="card-title mb-2"><%= product.name %></h5>
-              <p class="card-text mb-0">
-                <strong><%= product.price %> BD</strong>
-              </p>
+              <p class="card-text mb-0"><strong><%= product.price %> BD</strong></p>
+              
+              <% if (user) { %>
+                <form method="POST" action="/carts/<%= cartId %>/user/<%= userId %>/items" class="d-flex justify-content-center align-items-center gap-2 mt-2">
+                  <input type="hidden" name="productId" value="<%= product._id %>">
+                  <input type="hidden" name="quantity" value="1">
+                  <button type="submit" class="btn btn-primary btn-sm">Add to Cart</button>
+                </form>
+              <% } else { %>
+                <a href="/auth/sign-in" class="btn btn-outline-primary btn-sm mt-2">Sign in to Add</a>
+              <% } %>
             </div>
           </div>
-        </a>
-      </div>
+        </div>
       <% }) %>
     </div>
   </div>

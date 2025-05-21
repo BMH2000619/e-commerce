@@ -1,15 +1,11 @@
+.card-img-top {
+  object-fit: cover;
+  height: 220px;
+  background: #f8f9fa;
+}
 .card {
-  width: 18rem;
-  margin: 20px 0 0 20px;
-
+  border-radius: 1rem;
 }
-
-.row {
-    display: flex;
-  flex-wrap: wrap;
+.card-body form {
+  margin-bottom: 0.5rem;
 }
-
-h2 {
-  margin: 20px 0 0 20px;
-}
-

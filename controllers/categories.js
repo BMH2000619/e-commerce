@@ -20,6 +20,7 @@ router.get('/:id', async (req, res) => {
     const category = await Category.findById(req.params.id)
     const products = await Product.find({ category: category._id })
     res.render('categories/show.ejs', { category: category, products })
+    
   } catch (err) {
     res.status(500).send('Error fetching category')
   }

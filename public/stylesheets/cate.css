@@ -72,3 +72,32 @@ img {
   width: 120px;
   text-align: center;
 }
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fffbe6 0%, #fdf6ee 100%);
+}
+
+
+.category-card {
+  background: #fff;
+  border: 2px solid #ffe0b2;
+  box-shadow: 0 2px 16px rgba(255, 140, 66, 0.08);
+  cursor: pointer;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 
+    transform 0.18s cubic-bezier(.17,.67,.83,.67),
+    box-shadow 0.18s cubic-bezier(.17,.67,.83,.67),
+    border-color 0.18s;
+}
+.category-card:hover, .category-card:focus {
+  transform: translateY(-8px) scale(1.04) rotate(-2deg);
+  box-shadow: 0 8px 32px rgba(255, 140, 66, 0.18);
+  border-color: #ff8c42;
+  background: linear-gradient(120deg, #fffbe6 70%, #ffe0b2 100%);
+  text-decoration: none;
+}
+
+
