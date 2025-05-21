@@ -1,23 +1,30 @@
-<link rel="stylesheet" href="/stylesheets/style.css">
+<link rel="stylesheet" href="/stylesheets/style.css" />
 
 <%- include('../partials/_navbar') %>
-
-<div class="container py-5">
-  <h1 class="mb-4">Browse All Products</h1>
+<div class="footerbottom">
+  <div class="container py-5">
+    <h1 class="mb-4">Browse All Products</h1>
     <div class="row g-4">
       <% products.forEach ( product => { %>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-          <a href="/products/<%= product._id %>">
-            <div class="card h-100 shadow-sm product-card">
-              <img src="/<%= product.img %>" class="card-img-top" alt="<%= product.name %>">
-                <div class="card-body text-center">
-                  <h5 class="card-title mb-2"><%= product.name %></h5>
-                  <p class="card-text mb-0"><strong><%= product.price %> BD</strong></p>
-                </div>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <a href="/products/<%= product._id %>">
+          <div class="card h-100 shadow-sm product-card">
+            <img
+              src="/<%= product.img %>"
+              class="card-img-top"
+              alt="<%= product.name %>"
+            />
+            <div class="card-body text-center">
+              <h5 class="card-title mb-2"><%= product.name %></h5>
+              <p class="card-text mb-0">
+                <strong><%= product.price %> BD</strong>
+              </p>
             </div>
-          </a>
-        </div>
+          </div>
+        </a>
+      </div>
       <% }) %>
     </div>
+  </div>
 </div>
-
+<%- include('../partials/_footerbar') %>
