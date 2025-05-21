@@ -4,6 +4,11 @@
   background-color: #f4d03f !important; /* Override Bootstrap default if needed */
 }
 
+.flex-navbar {
+  display: flex;
+  justify-content: end;
+}
+
 /* --- Navbar brand logo size --- */
 .navbar-brand img {
   width: 60px;
