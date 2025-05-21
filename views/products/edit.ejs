@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="/stylesheets/style.css">
 
 <%- include('../partials/_navbar') %>
-
+<div class="footerbottom">
 <div class="container py-5">
   <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
@@ -43,6 +43,15 @@
             <input type="number" name="quantity" id="quantity" value="<%= product.quantity %>" class="form-control">
             </div>
 
+  <label for="img">Product Image URL:</label>
+  <input type="text" name="img" id="img" value="<%= product.img %>">
+  <br>
+
+  <button type="submit">Update Product</button>
+
+</form>
+</div>
+<%- include('../partials/_footerbar') %>
             <div class="mb-3">
                 <label for="img" class="form-label">Change Product Image:</label>
                 <input type="file" name="img" id="img" value="<%= product.img %>" class="form-control" accept="image/*">

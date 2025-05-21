@@ -18,11 +18,11 @@
         <% categories.forEach(category => { %>
         <li class="box-211">
           <a href="/categories/<%= category._id %>" class="box-221"
-            ><%= category.name %></a
-          >
+            ><%= category.name %></a>
         </li>
         <% }) %>
       </ul>
     </div>
   </div>
 </body>
+<%- include('../partials/_footerbar') %>

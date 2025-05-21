@@ -1,0 +1,93 @@
+.box {
+  margin: 0px 0px 0px 0px;
+}
+
+.box {
+  font-family: Arial, sans-serif;
+  background-color: #fcfaf2;
+  padding: 0;
+  margin: 0;
+}
+
+.box-11 {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 50px auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.box-111 h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.box-221 {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.box-222 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.box-222 img {
+  width: 50px;
+  height: auto;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+/*
+.box-11 {
+  background: #fcfaf2;
+
+}
+
+.box-1 {
+  margin: 20px 0px 0px 20px;
+  font-family: 'Merriweather', serif;
+  font-weight: 700;
+}
+
+.box-2 {
+  margin: 20px 0px 0px 20px;
+}
+
+.box-221 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;  Medium weight is a good default 
+  color: #1a73e8;  Bright blue for visibility 
+  text-decoration: none;  Optional: remove underline 
+  transition: color 0.2s ease;  Smooth hover effect 
+}
+
+.box-221:hover {
+  color: #0b57d0; Slightly darker on hover 
+  text-decoration: underline;  Optional: underline on hover 
+}
+
+img {
+  height: 250px;
+  width: 400px;
+}
+
+.box-21 {
+  list-style: none;  removes the bullet 
+  padding-left: 0;
+}
+
+.box-211 {
+  margin-bottom: 10px;  spacing between products 
+  padding-bottom: 10px;
+}
+*/

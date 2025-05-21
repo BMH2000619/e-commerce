@@ -1,8 +1,8 @@
-
-html, body {
+html,
+body {
   background-color: #fcfaf2 !important;
+  min-height: 600px !important;
 }
-
 
 .container-body {
   background-color: #fcfaf2; /* Your custom background */
@@ -10,7 +10,7 @@ html, body {
 
 /* --- Headings --- */
 h1 {
-  margin: 20px 0 0 20px;
+  margin: 20px 0 0 0px;
 }
 
 /* --- Forms --- */
@@ -18,15 +18,21 @@ h1 {
   margin-left: 20px;
 }
 
-#username, #email, #phone, #address, #img, #password, #confirmPassword {
+#username,
+#email,
+#phone,
+#address,
+#img,
+#password,
+#confirmPassword {
   width: 350px;
 }
 
 /* --- Bootstrap Overrides (if needed) --- */
 /*.form-control {*/
-  /* Example: If you want to customize input appearance */
-  /* border-radius: 0.5rem; */
-  /* border-color: #f4d03f; */
+/* Example: If you want to customize input appearance */
+/* border-radius: 0.5rem; */
+/* border-color: #f4d03f; */
 /*}*/
 
 .form-label {
@@ -59,6 +65,9 @@ h1 {
   }
 }
 
+.footerbottom {
+  min-height: 700px;
+}
 
 .welcome a {
   margin-left: 18px;
@@ -86,8 +95,8 @@ h1 {
 .card-img-top,
 .product-img,.listing-img {
   width: 100%;
-  height: 200px;          
-  object-fit: cover;       
+  height: 200px;
+  object-fit: cover;
   border-top-left-radius: 18px;
   border-top-right-radius: 18px;
   background: #fafafa;
@@ -102,6 +111,3 @@ h1 {
   transform: translateY(-6px) scale(1.03);
   box-shadow: 0 8px 32px rgba(44, 62, 80, 0.13);
 }
-
-
-
