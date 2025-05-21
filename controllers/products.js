@@ -67,18 +67,31 @@ router.get('/:productId',isSignedIn, async (req,res) => {
 })
 
 // GET /products/:productId/edit - Form to edit a product
-router.get('/:productId/edit',isSignedIn ,async (req, res) => {
+router.get('/:productId/edit',upload.single('img'), isSignedIn ,async (req, res) => {
   const currentProduct = await Product.findById(req.params.productId)
   const categories = await Category.find()
+  const imgPath = req.file ? 'uploads/' + req.file.filename : ''
   res.render('products/edit.ejs', { product: currentProduct, categories })
 })
 
-router.put('/:productId', async (req, res) => {
+router.put('/:productId', upload.single('img'), async (req, res) => {
   try {
     const currentProduct = await Product.findById(req.params.productId)
     if (currentProduct.seller.equals(req.session.user._id)) {
-      await currentProduct.updateOne(req.body)
-      res.redirect('/products')
+  
+      const updateData = {
+        name: req.body.name,
+        description: req.body.description,
+        price: req.body.price,
+        quantity: req.body.quantity,
+        category: req.body.category
+      }
+  
+      if (req.file) {
+        updateData.img = 'uploads/' + req.file.filename
+      }
+      await currentProduct.updateOne(updateData)
+      res.redirect(`/products/${currentProduct._id}`)
     } else {
       res.send("You don't have permission to do that.")
     }
