@@ -13,6 +13,16 @@
                 <div class="card-body text-center">
                   <h5 class="card-title mb-2"><%= product.name %></h5>
                   <p class="card-text mb-0"><strong><%= product.price %> BD</strong></p>
+                  
+                  <% if (user) { %>
+                    <form method="POST" action="/carts/<%= cartId %>/user/<%= userId %>/items" class="d-flex justify-content-center align-items-center gap-2">
+                      <input type="hidden" name="quantity" value="1" min="1" max="<%= product.quantity %>" class="form-control">
+                      <input type="hidden" name="productId" value="<%= product._id %>">
+                      <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
+                  <% } else { %>
+                    <a href="/auth/sign-in" class="btn btn-outline-primary">Sign in to Add</a>
+                  <% } %>
                 </div>
             </div>
           </a>

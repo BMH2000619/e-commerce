@@ -53,6 +53,7 @@ router.post('/:cartId/user/:userId/items', async (req, res) => {
 
   // Validate and parse quantity
   const quantity = parseInt(req.body.quantity)
+  console.log(quantity)
   if (isNaN(quantity) || quantity <= 0) {
     return res.status(400).send('Invalid quantity')
   }

@@ -13,8 +13,39 @@ const upload = require('../middleware/multer-config')
 // GET /products - List all Products
 router.get('/', async (req, res) => {
   const products = await Product.find().populate('category')
-  res.render('products/index.ejs', { products })
+  let cartId = null
+  let userId = null
+
+  if (req.session.user) {
+    userId = req.session.user._id;
+    let cart = await Cart.findOne({ user: userId, status: 'active' })
+    if (!cart) {
+      cart = await Cart.create({
+        user: userId,
+        items: [],
+        total: 0,
+        status: 'active'
+      })
+    }
+    cartId = cart._id
+    const filteredProducts = products.filter(product => String(product.seller._id) !== String(userId));
+    return res.render('products/index.ejs', {
+      products: filteredProducts,
+      user: userId,
+      cartId,
+      userId
+    });
+  }
+
+  // If not logged in, show all products
+  res.render('products/index.ejs', {
+    products,
+    user: null,
+    cartId,
+    userId
+  })
 })
+
 
 // GET /products/new - Form to create new product
 router.get('/new',isSignedIn ,async (req, res) => {
@@ -39,6 +70,14 @@ router.post('/', isSignedIn, upload.single('img'), async (req, res) => {
   await newProduct.save()
   res.redirect('/products')
 })
+
+// GET /products/seller - Show products owned by the logged-in user
+router.get('/seller', isSignedIn, async (req, res) => {
+  const userId = req.session.user._id;
+  const products = await Product.find({ seller: userId }).populate('category');
+  res.render('products/seller.ejs', { products, user: req.session.user });
+})
+
 
 // GET /products/productId - Show a Product
 router.get('/:productId',isSignedIn, async (req,res) => {
