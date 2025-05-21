@@ -1,23 +1,22 @@
-<link rel="stylesheet" href="/stylesheets/style.css">
+<link rel="stylesheet" href="/stylesheets/style.css" />
 <%- include('./partials/_navbar') %>
-<br>
-
+<br />
+<div class="footerbottom">
 <section class="welcome">
-  
   <h1>
     <%= user ? `Welcome back, ${user.username}!` : "Welcome to MongoMart!" %>
   </h1>
   <p>
-    <%= user
-      ? "Ready to buy or sell something new today?"
-      : "Join our community to buy and sell items easily and securely." %>
+    <%= user ? "Ready to buy or sell something new today?" : "Join our community to buy and sell items easily and securely." %>
   </p>
 
   <% if (!user) { %>
-    <a href="/auth/sign-up" class="btn btn-outline-dark">Sign Up Now</a>
-    <a href="/auth/sign-in" class="btn btn-outline-dark">Sign In</a>
+  <a href="/auth/sign-up" class="btn btn-outline-dark">Sign Up Now</a>
+  <a href="/auth/sign-in" class="btn btn-outline-dark">Sign In</a>
   <% } else { %>
-    <a href="/products/new" class="btn btn-outline-dark">Sell Products</a>
-    <a href="/products" class="btn btn-outline-dark">Browse Products</a>
+  <a href="/products/new" class="btn btn-outline-dark">Sell Products</a>
+  <a href="/products" class="btn btn-outline-dark">Browse Products</a>
   <% } %>
 </section>
+</div>
+<%- include('./partials/_footerbar') %>
