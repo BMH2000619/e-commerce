@@ -13,7 +13,7 @@
           <% if (user.img) { %>
             <img src="/<%= user.img %>" alt="Profile Image" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
           <% } else { %>
-            <img src="/default-profile.webp" alt="Default Profile Image" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+            <img src="/uploads/default-profile.png" alt="Default Profile Image" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
           <% } %>
           <h3 class="card-title mb-2"><%= user.username %></h3>
           <p class="mb-1"><i class="bi bi-envelope"></i> <strong>Email:</strong> <%= user.email %></p>
