@@ -68,7 +68,7 @@ router.post('/', isSignedIn, upload.single('img'), async (req, res) => {
   })
 
   await newProduct.save()
-  res.redirect('/products')
+  res.redirect('/products/seller')
 })
 
 // GET /products/seller - Show products owned by the logged-in user
@@ -145,7 +145,7 @@ router.delete('/:productId',isSignedIn ,async (req, res) => {
   const product = await Product.findById(req.params.productId)
   if (product.seller.equals(req.session.user._id)) {
     await product.deleteOne()
-    res.redirect('/products')
+    res.redirect('/products/seller')
   }
 })
 
