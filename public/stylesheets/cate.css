@@ -1,11 +1,6 @@
 .box-11 {
-  background: #f7e3cb;
-  background: radial-gradient(
-    circle,
-    rgba(247, 227, 203, 1) 0%,
-    rgba(255, 221, 176, 1) 50%,
-    rgba(255, 189, 97, 1) 100%
-  );
+  background: #fcfaf2;
+
 }
 
 .box-1 {

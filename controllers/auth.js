@@ -73,7 +73,7 @@ router.post('/sign-in', async (req, res) => {
     _id: userInDatabase._id
   }
 
-  res.redirect('/products')
+  res.redirect('/')
 })
 
 router.get('/sign-out', (req, res) => {
@@ -105,7 +105,7 @@ router.get('/profile',isSignedIn ,async (req, res) => {
     })
 })
 
-// GET /auth/profile/edit - Render edit profile form
+// GET /auth/profile/edit - show user the profile edit form
 router.get('/profile/edit', isSignedIn, async (req, res) => {
   const userId = req.session.user._id
   const user = await User.findById(userId)
@@ -128,6 +128,6 @@ router.post('/profile/edit', isSignedIn, upload.single('img'), async (req, res) 
   //update session info also
   Object.assign(req.session.user, updateData)
   res.redirect('/auth/profile')
-});
+})
 
 module.exports = router
