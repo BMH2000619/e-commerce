@@ -1,0 +1,47 @@
+.box-11 {
+  background: #f7e3cb;
+  background: radial-gradient(
+    circle,
+    rgba(247, 227, 203, 1) 0%,
+    rgba(255, 221, 176, 1) 50%,
+    rgba(255, 189, 97, 1) 100%
+  );
+}
+
+.box-1 {
+  margin: 20px 0px 0px 20px;
+  font-family: 'Merriweather', serif;
+  font-weight: 700;
+}
+
+.box-2 {
+  margin: 20px 0px 0px 20px;
+}
+
+.box-221 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500; /* Medium weight is a good default */
+  color: #1a73e8; /* Bright blue for visibility */
+  text-decoration: none; /* Optional: remove underline */
+  transition: color 0.2s ease; /* Smooth hover effect */
+}
+
+.box-221:hover {
+  color: #0b57d0; /* Slightly darker on hover */
+  text-decoration: underline; /* Optional: underline on hover */
+}
+
+img {
+  height: 250px;
+  width: 400px;
+}
+
+.box-21 {
+  list-style: none; /* removes the bullet */
+  padding-left: 0;
+}
+
+.box-211 {
+  margin-bottom: 10px; /* spacing between products */
+  padding-bottom: 10px;
+}
