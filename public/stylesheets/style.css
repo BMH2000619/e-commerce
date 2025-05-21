@@ -1,6 +1,7 @@
 html,
 body {
   background-color: #fcfaf2 !important;
+  min-height: 600px !important;
 }
 
 .container-body {
@@ -62,6 +63,10 @@ h1 {
     margin: 20px 0 0 0;
     font-size: 1.7rem;
   }
+}
+
+.footerbottom {
+  min-height: 700px;
 }
 
 .welcome a {

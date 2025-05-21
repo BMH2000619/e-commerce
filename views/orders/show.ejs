@@ -1,33 +1,37 @@
 <link rel="stylesheet" href="/stylesheets/style2.css" />
 <%- include('../partials/_navbar') %>
 <body class="box">
-  <div class="box-11">
-    <div class="box-111">
-      <h2>Order Details</h2>
-    </div>
+  <div class="footerbottom">
+    <div class="box-11">
+      <div class="box-111">
+        <h2>Order Details</h2>
+      </div>
 
-    <div>
-      <p><strong>ID:</strong> <%= order._id %></p>
-      <p><strong>Status:</strong> <%= order.status %></p>
-      <p><strong>Order placed for:</strong> <%= order.cartId.user.username %></p>
-    </div>
+      <div>
+        <p><strong>ID:</strong> <%= order._id %></p>
+        <p><strong>Status:</strong> <%= order.status %></p>
+        <p>
+          <strong>Order placed for:</strong> <%= order.cartId.user.username %>
+        </p>
+      </div>
 
-    <div>
-      <ul class="box-221">
-        <% order.cartId.items.forEach(item => { %>
-        <li class="box-222">
-          <img
-            src="/<%= item.product.img %>"
-            alt="<%= item.product.name %>"
-            width="50"
-          />
-          <%= item.product.name %> - Quantity: <%= item.quantity %> - Price: <%=
-          item.product.price %> BD
-        </li>
-        <% }) %>
-      </ul>
-      <p><strong>Payment:</strong> Cash on delivery (COD)</p>
-      <p><strong>Total:</strong> <%= order.cartId.total %> BD</p>
+      <div>
+        <ul class="box-221">
+          <% order.cartId.items.forEach(item => { %>
+          <li class="box-222">
+            <img
+              src="/<%= item.product.img %>"
+              alt="<%= item.product.name %>"
+              width="50"
+            />
+            <%= item.product.name %> - Quantity: <%= item.quantity %> - Price:
+            <%= item.product.price %> BD
+          </li>
+          <% }) %>
+        </ul>
+        <p><strong>Payment:</strong> Cash on delivery (COD)</p>
+        <p><strong>Total:</strong> <%= order.cartId.total %> BD</p>
+      </div>
     </div>
   </div>
 </body>

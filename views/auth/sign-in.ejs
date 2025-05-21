@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
   </head>
     <body class="container-body">
+      <div class="footerbottom">
     <%- include('../partials/_navbar') %>
     <h1>Sign in</h1>
     <form class="row g-3" id="form" action="/auth/sign-in" method="POST">
@@ -23,6 +24,7 @@
         <button type="submit" class="btn btn-primary">Sign in</button>
       </div>
     </form>
+    </div>
   </body>
 </html>
 <%- include('../partials/_footerbar') %>
