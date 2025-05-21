@@ -10,47 +10,9 @@
 <link rel="stylesheet" href="/stylesheets/style.css" />
 
 <%- include('../partials/_navbar') %>
+
+
 <div class="footerbottom">
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card shadow-sm">
-          <div class="card-body text-center">
-            <% if (user.img) { %>
-            <img
-              src="/<%= user.img %>"
-              alt="Profile Image"
-              class="rounded-circle mb-3"
-              style="width: 120px; height: 120px; object-fit: cover"
-            />
-            <% } else { %>
-            <img
-              src="/default-profile.webp"
-              alt="Default Profile Image"
-              class="rounded-circle mb-3"
-              style="width: 120px; height: 120px; object-fit: cover"
-            />
-            <% } %>
-            <h3 class="card-title mb-2"><%= user.username %></h3>
-            <p class="mb-1">
-              <i class="bi bi-envelope"></i> <strong>Email:</strong> <%=
-              user.email %>
-            </p>
-            <p class="mb-1">
-              <i class="bi bi-telephone"></i><strong>Phone:</strong> <%=
-              user.phone %>
-            </p>
-            <p class="mb-3">
-              <i class="bi bi-geo-alt"></i><strong>Address:</strong> <%=
-              user.address %>
-            </p>
-            <a href="/auth/profile/edit" class="btn btn-primary mb-3"
-              >Edit Profile</a
-            >
-          </div>
-        </div>
-      </div>
-    </div>
 
 <div class="container mt-5">
   <div class="row justify-content-center">
