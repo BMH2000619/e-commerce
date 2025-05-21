@@ -6,22 +6,24 @@
   href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
   rel="stylesheet"
 />
-<link rel="stylesheet" href="/stylesheets/cate.css" />
-<body class="box-11">
+<link rel="stylesheet" href="/stylesheets/style.css" />
+
   <%- include('../partials/_navbar') %>
-  <div class="box-1">
-    <h1>Products in <%= category.name %></h1>
-  </div>
-  <div class="box-2">
-    <ul class="box-21">
-      <% products.forEach(product => { %>
-      <li class="box-211">
-        <img src="/<%= product.img %>" alt="<%= product.name %>" />
-        <br />
-        <a href="/products/<%= product._id %>" class="box-221"><%= product.name %></a> - <%=
-        product.price %> BD
-      </li>
+  <div class="container py-5">
+    <h1 class="mb-4">Products in <%= category.name %></h1>
+  <div class="row g-4">
+    <% products.forEach(product => { %>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="card h-100 shadow-sm product-card">
+        <img src="/<%= product.img %>" class="card-img-top" alt="<%= product.name %>" />
+        <div class="card-body text-center">
+        <a href="/products/<%= product._id %>" class="card-title mb-2">
+        <h5 class="card-title mb-2"><%= product.name %></h5> 
+        <p class="card-text mb-0"><strong><%= product.price %> BD</strong></p>
+        </a>
+        </div>
+      </div>
+      </div>
       <% }) %>
-    </ul>
   </div>
-</body>
+</div>
